@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/user_api.dart';
 import 'package:mobile_shop_flutter/models/bottom_menu.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signUp.dart';
@@ -16,6 +17,7 @@ class _SignIn extends State<SignIn>{
   TextEditingController userName = TextEditingController();
   TextEditingController passWord = TextEditingController();
 
+  UserAPI userAPI = UserAPI();
 
   @override
   Widget build(BuildContext context) {
@@ -93,10 +95,20 @@ class _SignIn extends State<SignIn>{
     );
   }
 
+  bool _isLoading = false;
+
   Widget _signInBtn(BuildContext context){
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: HomePage())));
+      onTap: () async{
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: HomePage())));
+        setState(() {
+          _isLoading=true;
+        });
+        final String sign = await userAPI.signIn(userName.text, passWord.text);
+        if(sign=='200'){
+          _isLoading=false;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: HomePage())));
+        }
       },
 
       child: Container(
@@ -110,7 +122,9 @@ class _SignIn extends State<SignIn>{
           border: Border.all(color: mainColor, width: 2)
         ),
 
-        child: Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+        child: !_isLoading?
+          Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+          : Center(child: CircularProgressIndicator()),
       ),
     );
   }
