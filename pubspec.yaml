@@ -12,6 +12,7 @@ dependencies:
   salomon_bottom_bar: ^3.3.2
   cupertino_icons: ^1.0.6
   flutter_secure_storage: ^8.0.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -26,3 +27,4 @@ flutter:
     - assets/
     - assets/logo_icon/
     - assets/guitarSequence/
+    - assets/.env

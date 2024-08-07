@@ -1,9 +1,10 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final storage = FlutterSecureStorage();
 
 Future<void> write() async{
-  await storage.write(key: 'apiKey', value: '');
+  await storage.write(key: 'apiKey', value: dotenv.env['API_KEY']);
 }
 
 Future<String?> read () async{
