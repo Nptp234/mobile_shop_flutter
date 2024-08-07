@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 final storage = FlutterSecureStorage();
 
 Future<void> write() async{
-  await storage.write(key: 'apiKey', value: 'patqJUhGnCLrwuGCL.8440a46b0c491a48239219253f66e6ef7eba2fa056edf8ba873f3480c40488df');
+  await storage.write(key: 'apiKey', value: '');
 }
 
 Future<String?> read () async{
