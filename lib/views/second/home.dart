@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_shop_flutter/models/bottom_menu.dart';
+import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 
 class HomePage extends StatefulWidget{
+  const HomePage({super.key});
 
+  @override
   _HomePage createState() => _HomePage();
 }
 
 class _HomePage extends State<HomePage>{
 
+  final user = User();
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +25,8 @@ class _HomePage extends State<HomePage>{
     return PreferredSize(
       preferredSize: Size.fromHeight(getMainHeight(context)/3), 
       child: Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(top: 30),
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(top: 30),
         width: getMainWidth(context),
         
         child: Row(
@@ -40,20 +43,20 @@ class _HomePage extends State<HomePage>{
                 height: 60,
                 padding: EdgeInsets.zero,
 
-                child: Image.asset('assets/logo_icon/arvarta.png', fit: BoxFit.cover,),
+                child: Image.network(user.imgUrl!, fit: BoxFit.cover,),
               ),
             ),
             Container(
               width: getMainWidth(context)/2,
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
 
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-                  Text('Good Morning', style: TextStyle(fontSize: 17, color: Colors.black38, fontWeight: FontWeight.w500),),
-                  Text('Admin Alex', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
+                  const Text('Good Morning', style: TextStyle(fontSize: 17, color: Colors.black38, fontWeight: FontWeight.w500),),
+                  Text(user.username!, style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),),
                 ],
               ),
             ),
@@ -61,11 +64,11 @@ class _HomePage extends State<HomePage>{
             //notification and wishlist
             IconButton(
               onPressed: (){}, 
-              icon: Icon(Icons.notifications)
+              icon: const Icon(Icons.notifications)
             ),
             IconButton(
               onPressed: (){}, 
-              icon: Icon(CupertinoIcons.heart_fill)
+              icon: const Icon(CupertinoIcons.heart_fill)
             ),
           ],
         ),

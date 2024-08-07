@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
-import 'package:mobile_shop_flutter/views/second/3d_page.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
