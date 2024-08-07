@@ -4,6 +4,17 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 
 class UserAPI{
+  
+  //Singleton connection
+  UserAPI._privateConstructor();
+
+  // Static instance
+  static final UserAPI _instance = UserAPI._privateConstructor();
+
+  // Factory constructor to return the static instance
+  factory UserAPI() {
+    return _instance;
+  }
 
   Future<Map<dynamic, dynamic>> getData() async{
     try{

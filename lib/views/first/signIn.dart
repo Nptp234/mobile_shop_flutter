@@ -17,7 +17,7 @@ class _SignIn extends State<SignIn>{
   TextEditingController userName = TextEditingController();
   TextEditingController passWord = TextEditingController();
 
-  UserAPI userAPI = UserAPI();
+  final userAPI = UserAPI();
 
   @override
   Widget build(BuildContext context) {
