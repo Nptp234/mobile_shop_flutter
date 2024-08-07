@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
+import 'package:mobile_shop_flutter/views/second/account_center.dart';
 import 'package:mobile_shop_flutter/views/second/home.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
@@ -19,8 +20,7 @@ class _BottomMenu extends State<BottomMenu>{
   int _selectedIndex = 0;
   int _initialPage = 0;
 
-
-  final List<String> _titles = ['Home', 'Products', 'Cart', 'Account'];
+  // final List<String> _titles = ['Home', 'Products', 'Cart', 'Account'];
 
   List<IconData> iconLst = [
     Icons.home,
@@ -30,10 +30,10 @@ class _BottomMenu extends State<BottomMenu>{
   ];
 
   List<Widget> pageLst = [
-    HomePage(),
+    const HomePage(),
     SignIn(),
     HomePage(),
-    HomePage(),
+    const AccountCenter(),
   ];
 
   int _findInitialPage(Widget child) {
@@ -86,30 +86,30 @@ class _BottomMenu extends State<BottomMenu>{
           items: [
             //Home
             SalomonBottomBarItem(
-              icon: Icon(Icons.home), 
+              icon: const Icon(Icons.home), 
               title: Text('Home', style: itemMenu,),
-              selectedColor: Color(0xFFFFA62F)
+              selectedColor: const Color(0xFFFFA62F)
             ),
 
             //Setting
             SalomonBottomBarItem(
-              icon: Icon(Icons.settings), 
-              title: Text('Settings'),
-              selectedColor: Color(0xFFFFA62F)
-            ),
-
-            //Account
-            SalomonBottomBarItem(
-              icon: Icon(Icons.person), 
-              title: Text('Account'),
-              selectedColor: Color(0xFFFFA62F)
+              icon: const Icon(Icons.settings), 
+              title: const Text('Settings'),
+              selectedColor: const Color(0xFFFFA62F)
             ),
 
             //Cart
             SalomonBottomBarItem(
-              icon: Icon(Icons.shopping_bag), 
-              title: Text('Bag'),
-              selectedColor: Color(0xFFFFA62F)
+              icon: const Icon(Icons.shopping_bag), 
+              title: const Text('Bag'),
+              selectedColor: const Color(0xFFFFA62F)
+            ),
+            
+            //Account
+            SalomonBottomBarItem(
+              icon: const Icon(Icons.person), 
+              title: const Text('Account'),
+              selectedColor: const Color(0xFFFFA62F)
             ),
           ]
         ),

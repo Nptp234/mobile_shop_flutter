@@ -89,7 +89,7 @@ class _SignIn extends State<SignIn>{
 
       children: [
         InputFieldCustom(controller: userName, hintText: 'Your username', isObsucre: false),
-        SizedBox(height: 20,),
+        const SizedBox(height: 20,),
         InputFieldCustom(controller: passWord, hintText: 'Your password', isObsucre: true),
       ],
     );
@@ -107,14 +107,15 @@ class _SignIn extends State<SignIn>{
         final String sign = await userAPI.signIn(userName.text, passWord.text);
         if(sign=='200'){
           _isLoading=false;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: HomePage())));
+          // ignore: use_build_context_synchronously
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: const HomePage())));
         }
       },
 
       child: Container(
         width: MediaQuery.of(context).size.width/1.75,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
 
         decoration: BoxDecoration(
           color: mainColor,
@@ -123,8 +124,8 @@ class _SignIn extends State<SignIn>{
         ),
 
         child: !_isLoading?
-          Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
-          : Center(child: CircularProgressIndicator()),
+          const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+          : const Center(child: CircularProgressIndicator()),
       ),
     );
   }
@@ -137,8 +138,8 @@ class _SignIn extends State<SignIn>{
 
       child: Container(
         width: MediaQuery.of(context).size.width/1.75,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
 
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -146,7 +147,7 @@ class _SignIn extends State<SignIn>{
           border: Border.all(color: Colors.grey, width: 2)
         ),
 
-        child: Text('Sign Up', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
+        child: const Text('Sign Up', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
       ),
     );
   }
@@ -159,8 +160,8 @@ class _SignIn extends State<SignIn>{
 
       child: Container(
         width: 300,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
 
         decoration: BoxDecoration(
           color: Colors.transparent,
@@ -175,7 +176,7 @@ class _SignIn extends State<SignIn>{
           children: [
             Image.asset('assets/logo_icon/Google__G__logo.png', width: 30, height: 30,),
             // SizedBox(width: 30,),
-            Text('Sign in with Google', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+            const Text('Sign in with Google', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
           ],
         ),
       ),
@@ -189,7 +190,7 @@ class _SignIn extends State<SignIn>{
       children: [
         Container(
           width: double.infinity,
-          padding: EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
 
           child: const Divider(
             color: Colors.grey, // Màu sắc của đường viền
@@ -199,7 +200,7 @@ class _SignIn extends State<SignIn>{
 
         Container(
           padding: const EdgeInsets.all(3),
-            color: Color.fromARGB(255, 255, 255, 255),
+            color: const Color.fromARGB(255, 255, 255, 255),
             child: const Text(
               'Or',
               style: TextStyle(

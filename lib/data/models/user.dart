@@ -1,23 +1,38 @@
 class User{
-  String? id, username, email, password, imgUrl;
+  //Singleton connection
+  User._privateConstructor();
 
-  User({this.id, this.username, this.email, this.password, this.imgUrl});
+  // Static instance
+  static final User _instance = User._privateConstructor();
 
-  User.fromJson(Map<dynamic, dynamic> e){
+  // Factory constructor to return the static instance
+  factory User() {
+    return _instance;
+  }
+
+  String? id, username, email, password, imgUrl, phoneNumber;
+
+  clear(){
+    id=null;username=null;email=null;password=null;imgUrl=null;
+  }
+
+  fromJson(Map<dynamic, dynamic> e){
     id = e['ID'];
     username = e['Username'];
     email = e['Email'];
     password = e['Password'];
-    imgUrl = e['ProfileImg'];
+    imgUrl = e['ProfileImg'][0]['url'];
+    phoneNumber = e['Phone Number'];
   }
 
   Map<dynamic, dynamic> toJson(){
-    final Map<dynamic, dynamic> data = Map<dynamic, dynamic>();
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
     data['ID'] = id;
     data['Username'] = username;
     data['Email'] = email;
     data['Password'] = password;
     data['ProfileImg'] = imgUrl;
+    data['Phone Number'] = phoneNumber;
     return data;
   }
 }
