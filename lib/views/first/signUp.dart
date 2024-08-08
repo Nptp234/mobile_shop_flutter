@@ -1,9 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
 
 class SignUp extends StatefulWidget {
-  _SignUp createState() => _SignUp();
+  const SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUp();
 }
 
 class _SignUp extends State<SignUp> {
@@ -16,7 +20,7 @@ class _SignUp extends State<SignUp> {
         appBar: _header(context),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: _body(),
         ));
   }
@@ -31,7 +35,7 @@ class _SignUp extends State<SignUp> {
           height: double.infinity,
           decoration: BoxDecoration(
               color: mainColor,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
               boxShadow: [
                 BoxShadow(
                   color: mainColor.withOpacity(0.5),
@@ -54,13 +58,13 @@ class _SignUp extends State<SignUp> {
   Widget _body() {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(top: 70),
+      padding: const EdgeInsets.only(top: 70),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _inputFieldColumn(),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
 
@@ -81,12 +85,12 @@ class _SignUp extends State<SignUp> {
       children: [
         InputFieldCustom(
             controller: userName, hintText: 'Your username', isObsucre: false),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputFieldCustom(
             controller: userName, hintText: 'Your phone', isObsucre: false),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         InputFieldCustom(
@@ -100,13 +104,13 @@ class _SignUp extends State<SignUp> {
       onTap: () {},
       child: Container(
         width: MediaQuery.of(context).size.width / 1.75,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: mainColor,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: mainColor, width: 2)),
-        child: Text(
+        child: const Text(
           'Sign Up',
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
@@ -120,17 +124,17 @@ class _SignUp extends State<SignUp> {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignIn()));
+            context, MaterialPageRoute(builder: (context) => const SignIn()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 1.75,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Colors.grey, width: 2)),
-        child: Text(
+        child: const Text(
           'Sign In',
           style: TextStyle(
               color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
@@ -145,8 +149,8 @@ class _SignUp extends State<SignUp> {
       onTap: () {},
       child: Container(
         width: 300,
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(20),
@@ -161,7 +165,7 @@ class _SignUp extends State<SignUp> {
               height: 30,
             ),
             // SizedBox(width: 30,),
-            Text(
+            const Text(
               'Sign in with Google',
               style: TextStyle(
                   color: Colors.black,

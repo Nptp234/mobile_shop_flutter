@@ -13,11 +13,12 @@ class _SettingsList extends State<SettingsList> {
 
   final userAPI=  UserAPI();
 
-  bool _isDark = false;
+  // bool _isDark = false;
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: _isDark ? ThemeData.dark() : ThemeData.light(),
+      // data: _isDark ? ThemeData.dark() : ThemeData.light(),
+      data: ThemeData.light(),
       child: Scaffold(
         body: Center(
           child: Container(
@@ -82,6 +83,7 @@ class _CustomListTile extends StatelessWidget {
   final IconData icon;
   final Widget? trailing;
   final Function()? action;
+  // ignore: unused_element
   const _CustomListTile({required this.title, required this.icon, this.trailing, this.action});
 
   @override

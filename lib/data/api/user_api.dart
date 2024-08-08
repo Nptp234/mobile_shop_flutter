@@ -28,7 +28,7 @@ class UserAPI{
 
   logOut(BuildContext context){
     user.clear();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignIn()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignIn()));
   }
 
   Future<Map<dynamic, dynamic>> getData() async{

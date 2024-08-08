@@ -1,15 +1,17 @@
+
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
 import 'package:mobile_shop_flutter/models/bottom_menu.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signUp.dart';
-import 'package:mobile_shop_flutter/views/second/3d_page.dart';
 import 'package:mobile_shop_flutter/views/second/home.dart';
+import 'package:quickalert/quickalert.dart';
 
 class SignIn extends StatefulWidget{
+  const SignIn({super.key});
 
-
-  _SignIn createState() => _SignIn();
+  @override
+  State<SignIn> createState() => _SignIn();
 }
 
 class _SignIn extends State<SignIn>{
@@ -25,7 +27,7 @@ class _SignIn extends State<SignIn>{
       appBar: _header(context),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: ScrollPhysics(),
+        physics: const ScrollPhysics(),
         child: _body(),
       )
     );
@@ -41,7 +43,7 @@ class _SignIn extends State<SignIn>{
 
         decoration: BoxDecoration(
           color: mainColor,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
           boxShadow: [
             BoxShadow(
               color: mainColor.withOpacity(0.5),
@@ -62,7 +64,7 @@ class _SignIn extends State<SignIn>{
     return Container(
       width: double.infinity,
 
-      padding: EdgeInsets.only(top: 70),
+      padding: const EdgeInsets.only(top: 70),
 
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +72,7 @@ class _SignIn extends State<SignIn>{
 
         children: [
           _inputFieldColumn(),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           
           //button
           _signInBtn(context),
@@ -106,9 +108,17 @@ class _SignIn extends State<SignIn>{
         });
         final String sign = await userAPI.signIn(userName.text, passWord.text);
         if(sign=='200'){
-          _isLoading=false;
+          setState(() {
+            _isLoading=false;
+          });
           // ignore: use_build_context_synchronously
-          Navigator.push(context, MaterialPageRoute(builder: (context) => BottomMenu(child: const HomePage())));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomMenu(child: HomePage())));
+        }else{
+          setState(() {
+            _isLoading=false;
+          });
+          // ignore: use_build_context_synchronously
+          QuickAlert.show(context: context, type: QuickAlertType.error, title: 'Error!', text: 'Maybe your username or password is wrong!');
         }
       },
 

@@ -8,7 +8,7 @@ class AccountCenter extends StatefulWidget{
   const AccountCenter({super.key});
 
   @override
-  _AccountCenter createState() => _AccountCenter();
+  State<AccountCenter> createState() => _AccountCenter();
 }
 
 class _AccountCenter extends State<AccountCenter>{

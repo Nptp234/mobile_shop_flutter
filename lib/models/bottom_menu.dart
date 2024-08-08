@@ -7,11 +7,12 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class BottomMenu extends StatefulWidget{
 
-  late final Widget child;
+  final Widget child;
 
-  BottomMenu({super.key, required this.child});
+  const BottomMenu({super.key, required this.child});
 
-  _BottomMenu createState() => _BottomMenu();
+  @override
+  State<BottomMenu> createState() => _BottomMenu();
 }
 
 class _BottomMenu extends State<BottomMenu>{
@@ -31,8 +32,8 @@ class _BottomMenu extends State<BottomMenu>{
 
   List<Widget> pageLst = [
     const HomePage(),
-    SignIn(),
-    HomePage(),
+    const SignIn(),
+    const HomePage(),
     const AccountCenter(),
   ];
 
@@ -78,41 +79,50 @@ class _BottomMenu extends State<BottomMenu>{
           children: pageLst,
         ),
 
-        bottomNavigationBar: SalomonBottomBar(
-          currentIndex: _selectedIndex,
-          onTap: (i) => setState(() { 
-            _onItemTapped(i); 
-          }),
-          items: [
-            //Home
-            SalomonBottomBarItem(
-              icon: const Icon(Icons.home), 
-              title: Text('Home', style: itemMenu,),
-              selectedColor: const Color(0xFFFFA62F)
-            ),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.grey[200]!, blurRadius: 10,)
+            ]
+          ),
 
-            //Setting
-            SalomonBottomBarItem(
-              icon: const Icon(Icons.settings), 
-              title: const Text('Settings'),
-              selectedColor: const Color(0xFFFFA62F)
-            ),
+          child: SalomonBottomBar(
+            backgroundColor: Colors.white,
+            currentIndex: _selectedIndex,
+            onTap: (i) => setState(() { 
+              _onItemTapped(i); 
+            }),
+            items: [
+              //Home
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.home), 
+                title: Text('Home', style: itemMenu,),
+                selectedColor: mainColor
+              ),
 
-            //Cart
-            SalomonBottomBarItem(
-              icon: const Icon(Icons.shopping_bag), 
-              title: const Text('Bag'),
-              selectedColor: const Color(0xFFFFA62F)
-            ),
-            
-            //Account
-            SalomonBottomBarItem(
-              icon: const Icon(Icons.person), 
-              title: const Text('Account'),
-              selectedColor: const Color(0xFFFFA62F)
-            ),
-          ]
-        ),
+              //Setting
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.settings), 
+                title: const Text('Settings'),
+                selectedColor: mainColor
+              ),
+
+              //Cart
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.shopping_bag), 
+                title: const Text('Bag'),
+                selectedColor: mainColor
+              ),
+              
+              //Account
+              SalomonBottomBarItem(
+                icon: const Icon(Icons.person), 
+                title: const Text('Account'),
+                selectedColor: mainColor
+              ),
+            ]
+          ),
+        )
       ),
     );
   }
