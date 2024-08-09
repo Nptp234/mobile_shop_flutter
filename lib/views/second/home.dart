@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:mobile_shop_flutter/models/list_category.dart';
 import 'package:mobile_shop_flutter/models/slider.dart';
 
 class HomePage extends StatefulWidget{
@@ -25,7 +26,7 @@ class _HomePage extends State<HomePage>{
 
   PreferredSize _header(BuildContext context){
     return PreferredSize(
-      preferredSize: Size.fromHeight(getMainHeight(context)/3), 
+      preferredSize: Size.fromHeight(getMainHeight(context)/5), 
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(top: 30),
@@ -149,6 +150,9 @@ class _HomePage extends State<HomePage>{
 
           //slider
           const SliderBanner(),
+
+          //category list
+          const CategoryList(),
         ],
       ),
     );

@@ -15,6 +15,7 @@ writeData() async{
   await write();
   await writeUrl('userUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
   await writeUrl('bannerUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
+  await writeUrl('categoryUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');
 }
 
 class MainApp extends StatelessWidget {

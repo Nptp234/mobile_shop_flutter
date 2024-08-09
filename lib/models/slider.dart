@@ -95,7 +95,7 @@ class _SliderBanner extends State<SliderBanner> {
             options: CarouselOptions(
               autoPlay: true,
               enableInfiniteScroll: true,
-              height: 200,
+              height: 190,
               autoPlayInterval: const Duration(seconds: 3),
               autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,
