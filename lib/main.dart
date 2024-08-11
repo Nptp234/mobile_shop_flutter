@@ -11,11 +11,14 @@ void main() async{
   runApp(const MainApp());
 }
 
+String baseUrl = 'https://api.airtable.com/v0';
+
 writeData() async{
   await write();
-  await writeUrl('userUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
-  await writeUrl('bannerUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
-  await writeUrl('categoryUrl', 'https://api.airtable.com/v0/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');
+  await writeUrl('userUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
+  await writeUrl('bannerUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
+  await writeUrl('categoryUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');
+  await writeUrl('productUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['PRODUCT_TABLE']}');
 }
 
 class MainApp extends StatelessWidget {

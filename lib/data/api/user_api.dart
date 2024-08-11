@@ -39,7 +39,7 @@ class UserAPI{
       final res = await http.get(Uri.parse(url!), headers: {'Authorization':'Bearer $key'});
       
       if(res.statusCode==200){ return jsonDecode(res.body); }
-      else { throw Exception('Fail to load data!'); }
+      else { return {}; }
     }
     catch(e){
       rethrow;
