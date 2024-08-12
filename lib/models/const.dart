@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 Color mainColor = const Color(0xFFFFA62F);
 Color secondaryColor = const Color(0xFFFFC96F);
@@ -19,6 +20,10 @@ double getMainWidth(BuildContext context){
 
 String phoneFormated(String phone){
   return '${phone.substring(0, 4)}-${phone.substring(4, 7)}-${phone.substring(7, 10)}';
+}
+
+String priceFormated(String price){
+  return NumberFormat('#,##0').format(double.parse(price));
 }
 
 class InputFieldCustom extends StatelessWidget{

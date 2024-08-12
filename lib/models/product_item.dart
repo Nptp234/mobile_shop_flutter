@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+// import 'package:mobile_shop_flutter/models/const.dart';
 
 // ignore: must_be_immutable
 class ProductItem extends StatefulWidget{
@@ -15,17 +17,17 @@ class ProductItem extends StatefulWidget{
 
 class _ProductItem extends State<ProductItem>{
   final double _height = 650;
-  double _value = 5;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 500,
-      height: _height,
+      padding: const EdgeInsets.all(10),
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         // border: Border.all(color: Colors.black26, width: 1),
+        color: Colors.white
       ),
 
       child: Column(
@@ -36,11 +38,7 @@ class _ProductItem extends State<ProductItem>{
           //image
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: SizedBox(
-              height: _height/4,
-
-              child: Image.network(widget.product.imgUrl!, fit: BoxFit.cover,),
-            ),
+            child: Center(child: Image.network(widget.product.imgUrl!, fit: BoxFit.cover,),),
           ),
           const SizedBox(height: 20,),
 
@@ -51,26 +49,39 @@ class _ProductItem extends State<ProductItem>{
           //star and sold
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
 
             children: [
               //star
               Container(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(1),
 
-                child: RatingStars(
-                  value: _value,
-                  onValueChanged: (value) {
-                    setState(() {
-                      _value = value;
-                    });
-                  },
-                  starBuilder: (index, color) => Icon(Icons.star, color: color,),
-                  starCount: 1,
-                  maxValueVisibility: true,
-                  valueLabelVisibility: true,
-                  animationDuration: const Duration(milliseconds: 500),
-                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+
+                  children: [
+                    RatingBarIndicator(
+                      rating: double.parse(widget.product.starRating!) / 5, // Normalize value between 0 and 1
+                      itemBuilder: (context, _) => const Icon(
+                        Icons.star,
+                        color: Colors.black,
+                      ),
+                      itemCount: 1,
+                      itemSize: 25, // Size of the star
+                      direction: Axis.horizontal,
+                    ),
+                    const SizedBox(width: 8), // Spacing between star and text
+                    Text(
+                      '${widget.product.starRating}/5',
+                      style: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                )
               ),
 
               //sold
@@ -79,10 +90,10 @@ class _ProductItem extends State<ProductItem>{
 
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey.withOpacity(0.5)
+                  color: Colors.grey.withOpacity(0.2)
                 ),
 
-                child: Center(child: Text('2,000 sold', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15),),),
+                child: Center(child: Text('${widget.product.sold} sold', style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold, fontSize: 15),),),
               ),
             ],
           ),
@@ -90,7 +101,7 @@ class _ProductItem extends State<ProductItem>{
 
           
           //price
-          Text('${widget.product.price!} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+          Text('${priceFormated(widget.product.price!)} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
         ],
       ),
 

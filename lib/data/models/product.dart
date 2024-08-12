@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 class Product{
-  String? name, des, price, imgUrl;
+  String? name, des, price, imgUrl, sold, starRating;
 
   Product({this.name, this.price, this.des, this.imgUrl});
 
@@ -10,6 +10,8 @@ class Product{
     des = e['Description'];
     price = '${e['Price']}';
     imgUrl = e['Product Image'][0]['url'];
+    sold = '${e['Sold']}';
+    starRating = '${e['Star Rating']}';
   }
 
   Map<dynamic, dynamic> toJson(){

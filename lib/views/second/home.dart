@@ -200,6 +200,8 @@ class _HomePage extends State<HomePage> {
     return Container(
       width: getMainWidth(context),
       padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 20),
+
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -254,7 +256,8 @@ class _HomePage extends State<HomePage> {
               } else {
                 // Using SizedBox to constrain the height
                 return SizedBox(
-                  height: 750,
+                  width: getMainWidth(context),
+                  height: 1000,
 
                   child: GridView.builder(
                     scrollDirection: Axis.horizontal,
@@ -264,7 +267,7 @@ class _HomePage extends State<HomePage> {
                       crossAxisCount: 2,
                       mainAxisSpacing: 0.5,
                       crossAxisSpacing: 0.5,
-                      childAspectRatio: 1.7,
+                      childAspectRatio: 2.0,
                     ),
                     itemBuilder: (context, index) {
                       return Container(
