@@ -31,6 +31,10 @@ class UserAPI{
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignIn()));
   }
 
+  setFirst(){
+    user.clear();
+  }
+
   Future<Map<dynamic, dynamic>> getData() async{
     try{
       String? key = await read();

@@ -4,6 +4,7 @@ import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:mobile_shop_flutter/models/drawner.dart';
 import 'package:mobile_shop_flutter/models/list_category.dart';
 import 'package:mobile_shop_flutter/models/product_item.dart';
 import 'package:mobile_shop_flutter/models/slider.dart';
@@ -16,9 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  
   final user = User();
   ProductListModel productListModel = ProductListModel();
   ProductAPI productAPI = ProductAPI();
+  
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Product>> _getProductAll() async {
     List<Product> lst = await productAPI.getAll();
@@ -33,8 +37,10 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: _header(context),
       body: _body(),
+      drawer: DrawnerCustom(),
     );
   }
 
@@ -42,21 +48,36 @@ class _HomePage extends State<HomePage> {
     return PreferredSize(
         preferredSize: Size.fromHeight(getMainHeight(context) / 5),
         child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.only(top: 30),
-            width: getMainWidth(context),
+            width: getMainWidth(context)-100,
+            color: Colors.white,
             child: Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //drawner
+                    IconButton(
+                      onPressed: (){
+                        if(scaffoldKey.currentState!.isDrawerOpen){
+                          scaffoldKey.currentState!.closeDrawer();
+                          //close drawer, if drawer is open
+                        }else{
+                          scaffoldKey.currentState!.openDrawer();
+                          //open drawer, if drawer is closed
+                        }
+                      }, 
+                      icon: const Icon(Icons.menu)
+                    ),
+
                     //img and name
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Container(
-                        width: 60,
-                        height: 60,
+                        width: 50,
+                        height: 50,
                         padding: EdgeInsets.zero,
                         child: Image.network(
                           user.imgUrl!,
@@ -137,21 +158,25 @@ class _HomePage extends State<HomePage> {
   }
 
   Widget _body() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      physics: const ScrollPhysics(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _slider(),
+    return Container(
+      width: getMainWidth(context),
+      color: Colors.white,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: const ScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _slider(),
 
-          //category list
-          const CategoryList(),
+            //category list
+            const CategoryList(),
 
-          //all product
-          _itemList(context, 'All Product'),
-        ],
+            //all product
+            _itemList(context, 'All Product'),
+          ],
+        ),
       ),
     );
   }
@@ -160,6 +185,7 @@ class _HomePage extends State<HomePage> {
     return Container(
       width: getMainWidth(context),
       margin: const EdgeInsets.all(15),
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,7 +287,7 @@ class _HomePage extends State<HomePage> {
 
                   child: GridView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: snapshot.data!.length,
+                    itemCount: snapshot.data!.length>=20?20:snapshot.data!.length,
                     physics: const ScrollPhysics(),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,

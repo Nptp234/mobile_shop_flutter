@@ -16,7 +16,7 @@ class ProductItem extends StatefulWidget{
 }
 
 class _ProductItem extends State<ProductItem>{
-  final double _height = 650;
+  // final double _height = 650;
 
   @override
   Widget build(BuildContext context) {

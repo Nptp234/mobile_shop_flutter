@@ -17,9 +17,12 @@ class _AccountCenter extends State<AccountCenter>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _header(context),
-      body: const SettingsList()
+    return Theme(
+      data: ThemeData.light(), 
+      child: Scaffold(
+        appBar: _header(context),
+        body: const SettingsList(),
+      )
     );
   }
 

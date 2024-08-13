@@ -22,6 +22,12 @@ class _SignIn extends State<SignIn>{
   final userAPI = UserAPI();
 
   @override
+  void initState() {
+    super.initState();
+    userAPI.setFirst();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _header(context),
@@ -112,7 +118,7 @@ class _SignIn extends State<SignIn>{
             _isLoading=false;
           });
           // ignore: use_build_context_synchronously
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const BottomMenu(child: HomePage())));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
         }else{
           setState(() {
             _isLoading=false;
@@ -143,7 +149,7 @@ class _SignIn extends State<SignIn>{
   Widget _signUpBtn(BuildContext context){
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
       },
 
       child: Container(

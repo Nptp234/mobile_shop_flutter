@@ -23,6 +23,7 @@ class _SettingsList extends State<SettingsList> {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 400),
+            color: Colors.transparent,
             child: ListView(
               children: [
                 const _SingleSection(
@@ -68,6 +69,18 @@ class _SettingsList extends State<SettingsList> {
                         },
                       ),
                   ],
+                ),
+                const SizedBox(height: 80,),
+                _SingleSection(
+                  children: [
+                    _CustomListTile(
+                      title: "Back", 
+                      icon: Icons.arrow_back_ios,
+                      action: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ]
                 ),
               ],
             ),
