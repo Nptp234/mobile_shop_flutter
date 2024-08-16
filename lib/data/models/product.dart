@@ -4,7 +4,6 @@ class Product{
   String? id, name, des, price, imgUrl, sold, starRating;
 
   //combination
-  List<String>? variant, value;
   Map<String, List<String>>? variantValues = {};
 
   Product({this.id, this.name, this.price, this.des, this.imgUrl});
@@ -29,22 +28,6 @@ class Product{
     return data;
   }
 
-  setVariantList(List<String> variants){
-    variant = variants;
-  }
-  setValueList(List<String> values){
-    value = values;
-  }
-  fromJsonVariants(Map<dynamic, dynamic> e){
-    for(var i in e['records']){
-      if(i['fields']['ProductID'][0]==id){
-        variant!.add(i['fields']['VariantName']);
-      }
-    }
-  }
-  fromJsonValues(Map<dynamic, dynamic> e){
-    value = e['ValueName'];
-  }
   void addVariant(String variant, List<dynamic> values) {
     List<String> stringValues = values.map((value) => value.toString()).toList();
     if (!variantValues!.containsKey(variant)) {

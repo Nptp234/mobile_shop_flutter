@@ -49,6 +49,79 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
         physics: const ScrollPhysics(),
         child: _body(context),
       ),
+      bottomNavigationBar: _footer(context),
+    );
+  }
+
+  Widget _footer(BuildContext context){
+    return Container(
+      width: getMainWidth(context),
+      height: 100,
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      decoration: const BoxDecoration(
+        // borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.grey, blurRadius: 9, offset: Offset(0, -1))
+        ]
+      ),
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
+        children: [
+          //price
+          _price(),
+
+          //space
+          const SizedBox(width: 25,),
+
+          //button
+          _button(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _price(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+
+      children: [
+        const Text('Total Price', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.normal),),
+        Text('${priceFormated(widget.product.price!)} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
+      ],
+    );
+  }
+
+  Widget _button(BuildContext context){
+    return GestureDetector(
+      onTap: () {
+        
+      },
+
+      child: Container(
+        width: getMainWidth(context)/2,
+        height: 60,
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: mainColor,
+        ),
+
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
+          children: [
+            Icon(Icons.shopping_bag, size: 30, color: Colors.white,),
+            SizedBox(width: 20,),
+            Text('Add to cart', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
+          ],
+        ),
+      ),
     );
   }
 
@@ -57,6 +130,7 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
       // height: getMainHeight(context),
       width: getMainWidth(context),
       padding: const EdgeInsets.only(top: 10, bottom: 10),
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,6 +143,8 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
           _starSold(),
           //description
           _description(),
+          //amount
+          _amount(context),
           //variant
           variantTitleLst,
         ],
@@ -256,35 +332,59 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
       ),
     );
   }
+  int amount = 1;
 
-  Widget _variants(){
-    return FutureBuilder<Product>(
-      future: _getProduct(), 
-      builder: (context, snapshot){
-        if(snapshot.connectionState==ConnectionState.waiting){
-          return const Center(child: CircularProgressIndicator(),);
-        }
-        else{
-          return Container(
-            width: getMainWidth(context),
-            height: 300,
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            margin: const EdgeInsets.only(top: 20),
+  Widget _amount(BuildContext context){
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      margin: const EdgeInsets.only(top: 20),
+      
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
 
-            child: ListView.builder(
-              itemCount: snapshot.data!.variantValues!.length,
-              scrollDirection: Axis.vertical,
-              physics: const ScrollPhysics(),
-              
-              itemBuilder: (context, index){
-                final variantName = product.variantValues!.keys.elementAt(index);
-                final variantValue = product.variantValues![variantName]!;
-                return VariantList(variantName: variantName, variantValue: variantValue,);
-              }
+        children: [
+          const Text('Quantity', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(width: 20,),
+          Container(
+            width: getMainWidth(context)/3,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(width: 2, color: Colors.grey.withOpacity(0.5)),
+              color: Colors.grey[100],
             ),
-          );
-        }
-      }
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+
+              children: [
+                IconButton(
+                  onPressed: (){
+                    setState(() {
+                      amount++;
+                    });
+                  }, 
+                  icon: const Icon(Icons.add, size: 17, color: Colors.black,)
+                ),
+                Text('$amount', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
+                IconButton(
+                  onPressed: (){
+                    setState(() {
+                      if(amount>1){
+                        amount--;
+                      }
+                    });
+                  }, 
+                  icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

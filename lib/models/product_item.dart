@@ -35,7 +35,6 @@ class _ProductItem extends State<ProductItem> {
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            // border: Border.all(color: Colors.black26, width: 1),
             color: Colors.white),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
