@@ -79,9 +79,9 @@ class ProductAPI{
         var fields = record['fields'];
         if (fields['ProductID'][0] == int.parse(id)) {
           if(fields['VariantName'][0]=='Color'){
-            product.addVariant(fields['VariantName'][0], fields['Values']);
+            product.addVariant(fields['VariantName'][0], fields['Values'], fields['ExtraPrice']);
           }else{
-            product.addVariant(fields['VariantName'][0], fields['ValueName']);
+            product.addVariant(fields['VariantName'][0], fields['ValueName'], fields['ExtraPrice']);
           }
         }
       }

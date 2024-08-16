@@ -5,6 +5,8 @@ import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/models/variant_list.dart';
+import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class ProductDetailCustom extends StatefulWidget {
@@ -91,7 +93,10 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
 
       children: [
         const Text('Total Price', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.normal),),
-        Text('${priceFormated(widget.product.price!)} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
+        Consumer<VariantProvider>(
+          builder: (context, value, child) 
+            => Text('${priceFormated('${int.parse(widget.product.price!)+value.extraPrice}')} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+        )
       ],
     );
   }

@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 class VariantList extends StatefulWidget{
-  const VariantList({super.key, required this.variantName, required this.variantValue});
+  VariantList({super.key, required this.variantName, required this.variantValue, required this.variantPrice});
 
   final String variantName;
   final List<String> variantValue;
+  final List<String> variantPrice;
 
   @override
   State<VariantList> createState() => _variantList();
@@ -38,44 +42,50 @@ class _variantList extends State<VariantList>{
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               bool isSelected = index==_selectedIndex;
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
-                child: Container(
-                  width: 100,
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: isSelected ? mainColor : Colors.white.withOpacity(0.5),
-                    border: Border.all(
-                      width: 2,
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  ),
-                  child: widget.variantName == 'Color'
-                      ? Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color(int.parse(widget.variantValue[index])),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        )
-                      : Center(
-                          child: Text(
-                            '${widget.variantValue[index]}GB',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: isSelected?FontWeight.bold:FontWeight.normal,
-                              color: isSelected?Colors.white:Colors.black,
-                            ),
-                          ),
+              return Consumer<VariantProvider>(
+                builder: (context, value, child){
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = index;
+                        value.changeExtraPrice(int.parse(widget.variantPrice[_selectedIndex]));
+                      });
+                      QuickAlert.show(context: context, type: QuickAlertType.confirm, text: '${value.extraPrice}');
+                    },
+                    child: Container(
+                      width: 100,
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      margin: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: isSelected ? mainColor : Colors.white.withOpacity(0.5),
+                        border: Border.all(
+                          width: 2,
+                          color: Colors.grey.withOpacity(0.5),
                         ),
-                ),
+                      ),
+                      child: widget.variantName == 'Color'
+                          ? Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(int.parse(widget.variantValue[index])),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            )
+                          : Center(
+                              child: Text(
+                                '${widget.variantValue[index]}GB',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: isSelected?FontWeight.bold:FontWeight.normal,
+                                  color: isSelected?Colors.white:Colors.black,
+                                ),
+                              ),
+                            ),
+                    ),
+                  );
+                },
               );
             },
           ),
@@ -141,7 +151,8 @@ class VariantTitle extends StatelessWidget{
               itemBuilder: (context, index){
                 final variantName = snapshot.data!.variantValues!.keys.elementAt(index);
                 final variantValue = snapshot.data!.variantValues![variantName]!;
-                return VariantList(variantName: variantName, variantValue: variantValue,);
+                final variantPrice = snapshot.data!.variantPrices![variantName]!;
+                return VariantList(variantName: variantName, variantValue: variantValue, variantPrice: variantPrice,);
               }
             ),
           );
