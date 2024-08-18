@@ -7,11 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
 class VariantList extends StatefulWidget{
-  VariantList({super.key, required this.variantName, required this.variantValue, required this.variantPrice});
+  VariantList({super.key, required this.variantName, required this.variantValue, required this.variantPrice, required this.variantStock});
 
   final String variantName;
   final List<String> variantValue;
   final List<String> variantPrice;
+  final List<String> variantStock;
 
   @override
   State<VariantList> createState() => _variantList();
@@ -48,9 +49,10 @@ class _variantList extends State<VariantList>{
                     onTap: () {
                       setState(() {
                         _selectedIndex = index;
-                        value.changeExtraPrice(int.parse(widget.variantPrice[_selectedIndex]));
+                        value.addVaraints(widget.variantName, widget.variantValue[_selectedIndex], int.parse(widget.variantPrice[_selectedIndex]));
+                        value.changeStock(int.parse(widget.variantStock[_selectedIndex]));
                       });
-                      QuickAlert.show(context: context, type: QuickAlertType.confirm, text: '${value.extraPrice}');
+                      // QuickAlert.show(context: context, type: QuickAlertType.confirm, text: '${value.extraPrice}');
                     },
                     child: Container(
                       width: 100,
@@ -110,6 +112,7 @@ class VariantTitle extends StatelessWidget{
   }
   
   late String productID;
+  Map<String, int> variantPrices = {};
 
   setProductID(String id){
     productID = id;
@@ -152,7 +155,10 @@ class VariantTitle extends StatelessWidget{
                 final variantName = snapshot.data!.variantValues!.keys.elementAt(index);
                 final variantValue = snapshot.data!.variantValues![variantName]!;
                 final variantPrice = snapshot.data!.variantPrices![variantName]!;
-                return VariantList(variantName: variantName, variantValue: variantValue, variantPrice: variantPrice,);
+                final variantStock = snapshot.data!.variantStocks![variantName]!;
+                // variantPrices[variantName] = int.parse(variantPrice[index]);
+                
+                return VariantList(variantName: variantName, variantValue: variantValue, variantPrice: variantPrice, variantStock: variantStock,);
               }
             ),
           );

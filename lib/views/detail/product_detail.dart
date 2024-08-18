@@ -337,7 +337,7 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
       ),
     );
   }
-  int amount = 1;
+  int amount = 0;
 
   Widget _amount(BuildContext context){
     return Container(
@@ -353,7 +353,7 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
           const Text('Quantity', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           const SizedBox(width: 20,),
           Container(
-            width: getMainWidth(context)/3,
+            width: getMainWidth(context)/2.5,
             height: 50,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -361,32 +361,38 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
               color: Colors.grey[100],
             ),
 
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Consumer<VariantProvider>(
+              builder: (context, value, child) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-              children: [
-                IconButton(
-                  onPressed: (){
-                    setState(() {
-                      amount++;
-                    });
-                  }, 
-                  icon: const Icon(Icons.add, size: 17, color: Colors.black,)
-                ),
-                Text('$amount', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
-                IconButton(
-                  onPressed: (){
-                    setState(() {
-                      if(amount>1){
-                        amount--;
-                      }
-                    });
-                  }, 
-                  icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
-                ),
-              ],
-            ),
+                  children: [
+                    IconButton(
+                      onPressed: (){
+                        if(amount<value.stock){
+                          setState(() {
+                            amount++;
+                          });
+                        }
+                      }, 
+                      icon: const Icon(Icons.add, size: 17, color: Colors.black,)
+                    ),
+                    Text('$amount/${value.stock}', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
+                    IconButton(
+                      onPressed: (){
+                        setState(() {
+                          if(amount>0){
+                            amount--;
+                          }
+                        });
+                      }, 
+                      icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
+                    ),
+                  ],
+                );
+              },
+            )
           ),
         ],
       ),

@@ -6,6 +6,7 @@ class Product{
   //combination
   Map<String, List<String>>? variantValues = {};
   Map<String, List<String>>? variantPrices = {};
+  Map<String, List<String>>? variantStocks = {};
 
   Product({this.id, this.name, this.price, this.des, this.imgUrl});
 
@@ -29,17 +30,20 @@ class Product{
     return data;
   }
 
-  void addVariant(String variant, List<dynamic> values, List<dynamic> extraPrice) {
+  void addVariant(String variant, List<dynamic> values, List<dynamic> extraPrice, List<dynamic> stocks) {
     List<String> stringValues = values.map((value) => value.toString()).toList();
     List<String> stringPrices = extraPrice.map((value) => value.toString()).toList();
+    List<String> stringStocks = stocks.map((value) => value.toString()).toList();
 
     if (!variantValues!.containsKey(variant)) {
       variantValues![variant] = stringValues;
       variantPrices![variant] = stringPrices;
+      variantStocks![variant] = stringStocks;
     } else {
       // Merge new values with existing values if necessary
       variantValues![variant] = variantValues![variant]!.toSet().union(stringValues.toSet()).toList();
       variantPrices![variant] = variantPrices![variant]!.toSet().union(stringPrices.toSet()).toList();
+      variantStocks![variant] = variantStocks![variant]!.toSet().union(stringStocks.toSet()).toList();
     }
   }
 }
