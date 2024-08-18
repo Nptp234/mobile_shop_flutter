@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:mobile_shop_flutter/views/cart/my_order.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
 // import 'package:mobile_shop_flutter/models/const.dart';
 // import 'package:mobile_shop_flutter/models/list_settings.dart';
@@ -58,7 +59,7 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
               _TitleMenuItem(
                 title: 'My Orders',
                 icon: Icons.shopping_bag,
-                gotoWidget: const HomePage(),
+                gotoWidget: const MyOrder(),
               ),
               _TitleMenuItem(
                 title: 'Wishlist',
