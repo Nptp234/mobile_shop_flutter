@@ -42,7 +42,9 @@ class CartAPI{
       for(var record in response['records']){
         var field = record['fields'];
         Cart cart = Cart.fromJson(field);
-
+        for(int i=0; i<field['VariantName'].length; i++){
+          cart.addVariant(field['VariantName'][i], field['VariantValue'][i]);
+        }
         lst.add(cart);
       }
       return lst;

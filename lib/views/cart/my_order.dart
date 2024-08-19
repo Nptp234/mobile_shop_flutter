@@ -48,6 +48,8 @@ class _MyOrder extends State<MyOrder>{
             backIconColor: Colors.black,
             centerTitle: 'My Cart',
             centerTitleStyle: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            hintStyle: const TextStyle(color: Colors.grey, fontSize: 17, fontWeight: FontWeight.bold),
+            textStyle: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),
             onChanged: (p0) {
               
             },
