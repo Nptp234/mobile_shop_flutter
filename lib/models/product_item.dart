@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
+import 'package:mobile_shop_flutter/data/sqlite/wishlist_sqlite.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/detail/product_detail.dart';
+import 'package:mobile_shop_flutter/views/second/wishlist.dart';
 // import 'package:mobile_shop_flutter/models/const.dart';
 
 // ignore: must_be_immutable
@@ -18,24 +20,29 @@ class ProductItem extends StatefulWidget {
 
 class _ProductItem extends State<ProductItem> {
   // final double _height = 650;
+  WishlistSqlite wishlistSqlite = WishlistSqlite();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailCustom(
-                      product: widget.product,
-                    )));
+      onTap: () async{
+        List<String> ids = await wishlistSqlite.getList();
+        if(ids.contains(widget.product.id)){
+          widget.product.isWishlist=true;
+        }
+        else{
+          widget.product.isWishlist=false;
+        }
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailCustom(product: widget.product,)));
       },
       child: Container(
         width: 500,
         padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: Colors.white),
+            color: Colors.white
+          ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
+import 'package:mobile_shop_flutter/data/sqlite/wishlist_sqlite.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/models/variant_list.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
@@ -20,15 +21,25 @@ class ProductDetailCustom extends StatefulWidget {
 
 class _ProductDetailCustom extends State<ProductDetailCustom> {
 
-  bool isLiked = false;
-
   ProductAPI productAPI = ProductAPI();
   Product product = Product();
+  WishlistSqlite wishlistSqlite = WishlistSqlite();
 
-  Future<Product> _getProduct() async{
+  Future<void> _getProduct() async{
     try{
       product = await productAPI.getVariantProduct(widget.product.id!);
-      return product;
+      List<String> ids = await wishlistSqlite.getList();
+      if(ids.contains(product.id)){
+        setState(() {
+          widget.product.isWishlist=true;
+        });
+      }
+      else{
+        setState(() {
+          widget.product.isWishlist=false;
+        });
+      }
+      widget.product==product;
     }
     catch(e){
       rethrow;
@@ -213,10 +224,12 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
           IconButton(
             onPressed: (){
               setState(() {
-                isLiked=!isLiked;
+                if(!widget.product.isWishlist){wishlistSqlite.insert(widget.product.id!);}
+                else{wishlistSqlite.remove(widget.product.id!);}
+                widget.product.isWishlist=!widget.product.isWishlist;
               });
             }, 
-            icon: isLiked?const Icon(CupertinoIcons.heart_fill, size: 30, color: Colors.red,):const Icon(CupertinoIcons.heart, size: 30,)
+            icon: widget.product.isWishlist?const Icon(CupertinoIcons.heart_fill, size: 30, color: Colors.red,):const Icon(CupertinoIcons.heart, size: 30,)
           ),
         ],
       ),

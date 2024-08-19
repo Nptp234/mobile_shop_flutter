@@ -2,6 +2,7 @@ import 'dart:collection';
 
 class Product{
   String? id, name, des, price, imgUrl, sold, starRating;
+  bool isWishlist = false;
 
   //combination
   Map<String, List<String>>? variantValues = {};

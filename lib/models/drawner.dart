@@ -9,6 +9,7 @@ import 'package:mobile_shop_flutter/views/first/signIn.dart';
 // import 'package:mobile_shop_flutter/models/list_settings.dart';
 import 'package:mobile_shop_flutter/views/second/account_center.dart';
 import 'package:mobile_shop_flutter/views/second/home.dart';
+import 'package:mobile_shop_flutter/views/second/wishlist.dart';
 
 class DrawnerCustom extends StatefulWidget {
   const DrawnerCustom({super.key});
@@ -64,7 +65,7 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
               _TitleMenuItem(
                 title: 'Wishlist',
                 icon: Icons.favorite,
-                gotoWidget: const HomePage(),
+                gotoWidget: const WishlistPage(),
               ),
               _TitleMenuItem(
                 title: 'Settings',
