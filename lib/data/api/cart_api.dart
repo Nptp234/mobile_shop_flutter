@@ -17,9 +17,14 @@ class CartAPI{
       final res = await http.get(Uri.parse(url!), headers: {'Authorization':'Bearer $key'});
       if(res.statusCode==200){
         final data = jsonDecode(res.body);
-        Map<dynamic, dynamic> filteredRecords = data['records'].where((record) {
-          return record['CustomerID'] == user.id;
+        List<dynamic> filteredRecordsList = data['records'].where((record) {
+          return record['fields']['CustomerID'] == user.id;
         }).toList();
+
+        // Convert the filtered list back into a map structure
+        Map<dynamic, dynamic> filteredRecords = {
+          'records': filteredRecordsList,
+        };
 
         return filteredRecords;
       }
@@ -36,7 +41,9 @@ class CartAPI{
       List<Cart> lst = [];
       for(var record in response['records']){
         var field = record['fields'];
-        lst.add(Cart.fromJson(field));
+        Cart cart = Cart.fromJson(field);
+
+        lst.add(cart);
       }
       return lst;
     }

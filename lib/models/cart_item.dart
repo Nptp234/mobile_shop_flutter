@@ -21,7 +21,7 @@ class CartItem extends StatelessWidget{
       ),
 
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
 
         children: [
@@ -29,16 +29,48 @@ class CartItem extends StatelessWidget{
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SizedBox(
-              width: 70,
-              height: 100,
+              width: 130,
+              height: 150,
 
-              child: Image.network(cart.imgUrl!, fit: BoxFit.cover,),
+              child: Image.network(cart.imgUrl!, fit: BoxFit.contain,),
             ),
           ),
           
-          //another
+          //detail
+          _detail(),
         ],
       ),
+    );
+  }
+
+  Widget _detail(){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+
+      children: [
+        //name
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 150,
+              child: Text(cart.productName!, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),),
+            ),
+            IconButton(
+              onPressed: (){
+
+              }, 
+              icon: const Icon(Icons.delete, color: Colors.red,)
+            )
+          ],
+        ),
+
+        //variant
+        
+
+        //price and amount
+      ],
     );
   }
 

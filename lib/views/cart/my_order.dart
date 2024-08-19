@@ -1,5 +1,9 @@
 import 'package:animation_search_bar/animation_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/cart_api.dart';
+import 'package:mobile_shop_flutter/data/models/cart.dart';
+import 'package:mobile_shop_flutter/models/cart_item.dart';
+import 'package:mobile_shop_flutter/models/const.dart';
 
 class MyOrder extends StatefulWidget{
   const MyOrder({super.key});
@@ -11,11 +15,18 @@ class MyOrder extends StatefulWidget{
 class _MyOrder extends State<MyOrder>{
 
   TextEditingController searchController = TextEditingController();
+  CartAPI cartAPI = CartAPI();
+
+  Future<List<Cart>> _getList() async{
+    List<Cart> lst = await cartAPI.getList();
+    return lst;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _header(context),
+      body: _body(context),
     );
   }
 
@@ -45,6 +56,33 @@ class _MyOrder extends State<MyOrder>{
           ),
         )
       )
+    );
+  }
+
+  Widget _body(BuildContext context){
+    return FutureBuilder<List<Cart>>(
+      future: _getList(), 
+      builder: (context, snapshot){
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const Center(child: CircularProgressIndicator(),);
+        }
+        else{
+          return Container(
+            width: getMainWidth(context),
+            height: getMainHeight(context),
+            padding: const EdgeInsets.all(10),
+
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              scrollDirection: Axis.vertical,
+              physics: const ScrollPhysics(),
+              itemBuilder: (context, index) {
+                return CartItem(cart: snapshot.data![index]);
+              },
+            ),
+          );
+        }
+      }
     );
   }
 
