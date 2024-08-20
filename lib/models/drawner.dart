@@ -9,6 +9,7 @@ import 'package:mobile_shop_flutter/views/first/signIn.dart';
 // import 'package:mobile_shop_flutter/models/list_settings.dart';
 import 'package:mobile_shop_flutter/views/second/account_center.dart';
 import 'package:mobile_shop_flutter/views/second/home.dart';
+import 'package:mobile_shop_flutter/views/second/support.dart';
 import 'package:mobile_shop_flutter/views/second/wishlist.dart';
 
 class DrawnerCustom extends StatefulWidget {
@@ -48,11 +49,6 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _TitleMenuItem(
-                title: 'Home',
-                icon: Icons.home,
-                gotoWidget: const HomePage(),
-              ),
-              _TitleMenuItem(
                 title: 'Account Center',
                 icon: Icons.person,
                 gotoWidget: const AccountCenter(),
@@ -68,14 +64,9 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
                 gotoWidget: const WishlistPage(),
               ),
               _TitleMenuItem(
-                title: 'Settings',
-                icon: Icons.settings,
-                gotoWidget: const HomePage(),
-              ),
-              _TitleMenuItem(
                 title: 'Support',
                 icon: Icons.support_agent,
-                gotoWidget: const HomePage(),
+                gotoWidget: const SupportPage(),
               ),
             ],
           ),

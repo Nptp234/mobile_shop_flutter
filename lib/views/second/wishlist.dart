@@ -75,8 +75,8 @@ class _WishlistPage extends State<WishlistPage>{
         else if(snapshot.hasError){
           return Center(child: Text('${snapshot.error}'),);
         }
-        else if(snapshot.data!.length==0){
-          return Center();
+        else if(snapshot.data!.isEmpty){
+          return const Center();
         }
         else{
           return Container(

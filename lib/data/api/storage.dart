@@ -5,10 +5,15 @@ final storage = FlutterSecureStorage();
 
 Future<void> write() async{
   await storage.write(key: 'apiKey', value: dotenv.env['API_KEY']);
+  await storage.write(key: 'cohereKey', value: dotenv.env['COHERE_KEY']);
 }
 
 Future<String?> read () async{
   return await storage.read(key: 'apiKey');
+}
+
+Future<String?> readCohere () async{
+  return await storage.read(key: 'cohereKey');
 }
 
 Future<void> writeUrl(String key, String url) async{

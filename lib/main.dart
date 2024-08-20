@@ -18,6 +18,7 @@ String baseUrl = 'https://api.airtable.com/v0';
 
 writeData() async{
   await write();
+  await writeUrl('cohereUrl', 'https://api.cohere.ai/generate');
   await writeUrl('userUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
   await writeUrl('bannerUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
   await writeUrl('categoryUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');
