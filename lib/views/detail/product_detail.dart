@@ -57,12 +57,43 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: const ScrollPhysics(),
-        child: _body(context),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: const ScrollPhysics(),
+            child: _body(context),
+          ),
+          _header(context)
+        ],
       ),
       bottomNavigationBar: _footer(context),
+    );
+  }
+
+  PreferredSize _header(BuildContext context){
+    return PreferredSize(
+      preferredSize: const Size(50, 50), 
+      child: Container(
+        color: Colors.transparent,
+        child: Positioned(
+          top: 10,
+          left: 10,
+          child: Container(
+            margin: EdgeInsets.only(top: 30, left: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(180),
+              color: Colors.black38.withOpacity(0.3)
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back, size: 20, color: Colors.white)
+            ),
+          )
+        ),
+      )
     );
   }
 
@@ -184,23 +215,23 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
                   width: getMainWidth(context),
                 ),
               ),
-              Positioned(
-                  top: 10,
-                  left: 10,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(180),
-                        color: Colors.black38.withOpacity(0.3)),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          size: 20,
-                          color: Colors.white,
-                        )),
-                  )),
+              // Positioned(
+              //     top: 10,
+              //     left: 10,
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(180),
+              //           color: Colors.black38.withOpacity(0.3)),
+              //       child: IconButton(
+              //           onPressed: () {
+              //             Navigator.pop(context);
+              //           },
+              //           icon: const Icon(
+              //             Icons.arrow_back,
+              //             size: 20,
+              //             color: Colors.white,
+              //           )),
+              //     )),
             ],
           ),
         ));

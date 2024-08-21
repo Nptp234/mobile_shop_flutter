@@ -64,7 +64,7 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
                 gotoWidget: const WishlistPage(),
               ),
               _TitleMenuItem(
-                title: 'Support',
+                title: 'Cohere Chatbot',
                 icon: Icons.support_agent,
                 gotoWidget: const SupportPage(),
               ),
