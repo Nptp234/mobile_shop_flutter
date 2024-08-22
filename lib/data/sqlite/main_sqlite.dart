@@ -50,6 +50,11 @@ class SQLiteService {
         'create table if not exists wishlist (productId text primary key);',
       );
       log('table created: wishlist');
+
+      await db.execute(
+        'create table if not exists user (username text primary key, password text);',
+      );
+      log('table created: user');
       
     }
     catch (e) {

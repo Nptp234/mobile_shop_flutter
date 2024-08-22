@@ -9,6 +9,9 @@
 .history
 .svn/
 .env
+.venv/
+model.tflite
+getmodel.py
 migrate_working_dir/
 
 # IntelliJ related

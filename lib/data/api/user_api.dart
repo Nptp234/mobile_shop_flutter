@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
+import 'package:mobile_shop_flutter/views/first/waiting.dart';
 
 class UserAPI{
 

@@ -5,6 +5,7 @@ import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/cart/my_order.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
+import 'package:mobile_shop_flutter/views/first/waiting.dart';
 // import 'package:mobile_shop_flutter/models/const.dart';
 // import 'package:mobile_shop_flutter/models/list_settings.dart';
 import 'package:mobile_shop_flutter/views/second/account_center.dart';
@@ -64,7 +65,7 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
                 gotoWidget: const WishlistPage(),
               ),
               _TitleMenuItem(
-                title: 'Cohere Chatbot',
+                title: 'Gemini Chatbot',
                 icon: Icons.support_agent,
                 gotoWidget: const SupportPage(),
               ),

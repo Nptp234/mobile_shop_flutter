@@ -74,7 +74,7 @@ class _SupportPage extends State<SupportPage>{
         ),
         child: AppBar(
           backgroundColor: Colors.white,
-          title: Text('Cohere Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+          title: Text('Gemini Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
         ),
       )
     );
@@ -119,7 +119,7 @@ class _SupportPage extends State<SupportPage>{
                           ),
                           child: Image.asset('assets/logo_icon/cohere_icon.png', fit: BoxFit.cover,),
                         ),
-                        const Text('Wellcome to Cohere! How can we help you?', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
+                        const Text('Wellcome! How can we help you?', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,)
                       ],
                     )
                   ),
@@ -185,16 +185,18 @@ class _SupportPage extends State<SupportPage>{
         note: messController.text,
       ),
     );
+    String text = messController.text;
+    messController.clear();
     setState(() {
       _isLoad=true;
     });
 
     try {
-      String reply = await chatbotApi.sendMess(messController.text);
+      String reply = await chatbotApi.requestGemini(text);
 
       value.addHistory(
         Chatbot(
-          username: 'Cohere',
+          username: 'Gemini',
           note: reply,
         ),
       );
@@ -205,7 +207,6 @@ class _SupportPage extends State<SupportPage>{
     } 
     finally {
       // Hide the loading indicator, re-enable the button, etc.
-      messController.clear();
       setState(() {
         _isLoad=false;
       });

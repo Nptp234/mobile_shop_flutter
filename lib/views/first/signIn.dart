@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
+import 'package:mobile_shop_flutter/data/models/user.dart';
+import 'package:mobile_shop_flutter/data/sqlite/user_sqlite.dart';
 import 'package:mobile_shop_flutter/models/bottom_menu.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signUp.dart';
@@ -20,6 +22,8 @@ class _SignIn extends State<SignIn>{
   TextEditingController passWord = TextEditingController();
 
   final userAPI = UserAPI();
+  final user = User();
+  UserSqlite userSqlite = UserSqlite();
 
   @override
   void initState() {
@@ -78,8 +82,11 @@ class _SignIn extends State<SignIn>{
 
         children: [
           _inputFieldColumn(),
-          const SizedBox(height: 20,),
-          
+          const SizedBox(height: 10,),
+
+          //save user
+          _saveCheck(),
+
           //button
           _signInBtn(context),
           _signUpBtn(context),
@@ -103,6 +110,32 @@ class _SignIn extends State<SignIn>{
     );
   }
 
+  bool _isCheck = false;
+
+  Widget _saveCheck(){
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.all(10),
+
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
+        children: [
+          Checkbox(
+            value: _isCheck, 
+            onChanged: (value) => setState(() {
+              _isCheck = value!;
+            })
+          ),
+
+          const Text('Remember me next time.', style: TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.normal),)
+        ],
+      ),
+    );
+  }
+
   bool _isLoading = false;
 
   Widget _signInBtn(BuildContext context){
@@ -117,6 +150,7 @@ class _SignIn extends State<SignIn>{
           setState(() {
             _isLoading=false;
           });
+          if(_isCheck){await userSqlite.addUser(userName.text, passWord.text);}
           // ignore: use_build_context_synchronously
           Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
         }else{
@@ -129,7 +163,7 @@ class _SignIn extends State<SignIn>{
       },
 
       child: Container(
-        width: MediaQuery.of(context).size.width/1.75,
+        width: getMainWidth(context)/1.75,
         margin: const EdgeInsets.all(20),
         padding: const EdgeInsets.all(10),
 

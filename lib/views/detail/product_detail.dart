@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_shop_flutter/data/api/chatbot_api.dart';
 import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/data/sqlite/wishlist_sqlite.dart';
@@ -20,28 +21,26 @@ class ProductDetailCustom extends StatefulWidget {
 }
 
 class _ProductDetailCustom extends State<ProductDetailCustom> {
-
   ProductAPI productAPI = ProductAPI();
   Product product = Product();
   WishlistSqlite wishlistSqlite = WishlistSqlite();
+  // final _chat = ChatbotApi();
 
-  Future<void> _getProduct() async{
-    try{
+  Future<void> _getProduct() async {
+    try {
       product = await productAPI.getVariantProduct(widget.product.id!);
       List<String> ids = await wishlistSqlite.getList();
-      if(ids.contains(product.id)){
+      if (ids.contains(product.id)) {
         setState(() {
-          widget.product.isWishlist=true;
+          widget.product.isWishlist = true;
+        });
+      } else {
+        setState(() {
+          widget.product.isWishlist = false;
         });
       }
-      else{
-        setState(() {
-          widget.product.isWishlist=false;
-        });
-      }
-      widget.product==product;
-    }
-    catch(e){
+      widget.product == product;
+    } catch (e) {
       rethrow;
     }
   }
@@ -71,55 +70,51 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
     );
   }
 
-  PreferredSize _header(BuildContext context){
+  PreferredSize _header(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size(50, 50), 
-      child: Container(
-        color: Colors.transparent,
-        child: Positioned(
-          top: 10,
-          left: 10,
-          child: Container(
-            margin: EdgeInsets.only(top: 30, left: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(180),
-              color: Colors.black38.withOpacity(0.3)
-            ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.arrow_back, size: 20, color: Colors.white)
-            ),
-          )
-        ),
-      )
-    );
+        preferredSize: const Size(50, 50),
+        child: Container(
+          color: Colors.transparent,
+          child: Positioned(
+              top: 10,
+              left: 10,
+              child: Container(
+                margin: EdgeInsets.only(top: 30, left: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(180),
+                    color: Colors.black38.withOpacity(0.3)),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back,
+                        size: 20, color: Colors.white)),
+              )),
+        ));
   }
 
-  Widget _footer(BuildContext context){
+  Widget _footer(BuildContext context) {
     return Container(
       width: getMainWidth(context),
       height: 100,
       padding: const EdgeInsets.only(top: 10, bottom: 10),
       decoration: const BoxDecoration(
-        // borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(color: Colors.grey, blurRadius: 9, offset: Offset(0, -1))
-        ]
-      ),
-
+          // borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.grey, blurRadius: 9, offset: Offset(0, -1))
+          ]),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-
         children: [
           //price
           _price(),
 
           //space
-          const SizedBox(width: 25,),
+          const SizedBox(
+            width: 25,
+          ),
 
           //button
           _button(context),
@@ -128,44 +123,58 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
     );
   }
 
-  Widget _price(){
+  Widget _price() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
-        const Text('Total Price', style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.normal),),
+        const Text(
+          'Total Price',
+          style: TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.normal),
+        ),
         Consumer<VariantProvider>(
-          builder: (context, value, child) 
-            => Text('${priceFormated('${int.parse(widget.product.price!)+value.extraPrice}')} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+          builder: (context, value, child) => Text(
+            '${priceFormated('${int.parse(widget.product.price!) + value.extraPrice}')} VND',
+            style: const TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         )
       ],
     );
   }
 
-  Widget _button(BuildContext context){
+  Widget _button(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        
-      },
-
+      onTap: () {},
       child: Container(
-        width: getMainWidth(context)/2,
+        width: getMainWidth(context) / 2,
         height: 60,
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           color: mainColor,
         ),
-
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
-            Icon(Icons.shopping_bag, size: 30, color: Colors.white,),
-            SizedBox(width: 20,),
-            Text('Add to cart', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.bold),)
+            Icon(
+              Icons.shopping_bag,
+              size: 30,
+              color: Colors.white,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Text(
+              'Add to cart',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold),
+            )
           ],
         ),
       ),
@@ -215,53 +224,47 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
                   width: getMainWidth(context),
                 ),
               ),
-              // Positioned(
-              //     top: 10,
-              //     left: 10,
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(180),
-              //           color: Colors.black38.withOpacity(0.3)),
-              //       child: IconButton(
-              //           onPressed: () {
-              //             Navigator.pop(context);
-              //           },
-              //           icon: const Icon(
-              //             Icons.arrow_back,
-              //             size: 20,
-              //             color: Colors.white,
-              //           )),
-              //     )),
             ],
           ),
         ));
   }
 
-  Widget _title(BuildContext context){
+  Widget _title(BuildContext context) {
     return Container(
       width: getMainWidth(context),
       padding: const EdgeInsets.only(left: 20, right: 20),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
-
         children: [
           SizedBox(
-            width: getMainWidth(context)/1.5,
-            child: Text(widget.product.name!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            width: getMainWidth(context) / 1.5,
+            child: Text(
+              widget.product.name!,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
-          
           IconButton(
-            onPressed: (){
-              setState(() {
-                if(!widget.product.isWishlist){wishlistSqlite.insert(widget.product.id!);}
-                else{wishlistSqlite.remove(widget.product.id!);}
-                widget.product.isWishlist=!widget.product.isWishlist;
-              });
-            }, 
-            icon: widget.product.isWishlist?const Icon(CupertinoIcons.heart_fill, size: 30, color: Colors.red,):const Icon(CupertinoIcons.heart, size: 30,)
-          ),
+              onPressed: () {
+                setState(() {
+                  if (!widget.product.isWishlist) {
+                    wishlistSqlite.insert(widget.product.id!);
+                  } else {
+                    wishlistSqlite.remove(widget.product.id!);
+                  }
+                  widget.product.isWishlist = !widget.product.isWishlist;
+                });
+              },
+              icon: widget.product.isWishlist
+                  ? const Icon(
+                      CupertinoIcons.heart_fill,
+                      size: 30,
+                      color: Colors.red,
+                    )
+                  : const Icon(
+                      CupertinoIcons.heart,
+                      size: 30,
+                    )),
         ],
       ),
     );
@@ -272,11 +275,8 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
       width: getMainWidth(context),
       margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
       padding: const EdgeInsets.only(bottom: 15),
-
       decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.black26, width: 1))
-      ),
-
+          border: Border(bottom: BorderSide(color: Colors.black26, width: 1))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -289,7 +289,8 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   RatingBarIndicator(
-                    rating: double.parse(widget.product.starRating!) / 5, // Normalize value between 0 and 1
+                    rating: double.parse(widget.product.starRating!) /
+                        5, // Normalize value between 0 and 1
                     itemBuilder: (context, _) => const Icon(
                       Icons.star,
                       color: Colors.black,
@@ -334,110 +335,134 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
   int maxLine = 3;
   String see = 'See all';
 
-  Widget _description(){
+  Widget _description() {
     return Container(
       width: getMainWidth(context),
       padding: const EdgeInsets.only(left: 20, right: 20),
       margin: const EdgeInsets.only(top: 20),
-
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
-          const Text('Description', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-          const SizedBox(height: 10,),
+          const Text(
+            'Description',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           SizedBox(
             width: getMainWidth(context),
             child: Text(
-              widget.product.des!, 
+              widget.product.des!,
               style: const TextStyle(
-                color: Colors.black45, 
-                fontSize: 17, 
-                fontWeight: FontWeight.normal
-              ),
+                  color: Colors.black45,
+                  fontSize: 17,
+                  fontWeight: FontWeight.normal),
               maxLines: maxLine,
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
-                if(see=='See all'){
+                if (see == 'See all') {
                   maxLine = 50;
                   see = 'See less';
-                }else{
+                } else {
                   maxLine = 3;
                   see = 'See all';
                 }
               });
             },
             child: Container(
-              decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black, width: 1))),
-              child: Text(see, style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.normal),),
+              decoration: const BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Colors.black, width: 1))),
+              child: Text(
+                see,
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.normal),
+              ),
             ),
           )
         ],
       ),
     );
   }
+
   int amount = 0;
 
-  Widget _amount(BuildContext context){
+  Widget _amount(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(left: 20, right: 20),
       margin: const EdgeInsets.only(top: 20),
-      
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
-
         children: [
-          const Text('Quantity', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          const SizedBox(width: 20,),
-          Container(
-            width: getMainWidth(context)/2.5,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 2, color: Colors.grey.withOpacity(0.5)),
-              color: Colors.grey[100],
-            ),
-
-            child: Consumer<VariantProvider>(
-              builder: (context, value, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-
-                  children: [
-                    IconButton(
-                      onPressed: (){
-                        if(amount<value.stock){
-                          setState(() {
-                            amount++;
-                          });
-                        }
-                      }, 
-                      icon: const Icon(Icons.add, size: 17, color: Colors.black,)
-                    ),
-                    Text('$amount/${value.stock}', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
-                    IconButton(
-                      onPressed: (){
-                        setState(() {
-                          if(amount>0){
-                            amount--;
-                          }
-                        });
-                      }, 
-                      icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
-                    ),
-                  ],
-                );
-              },
-            )
+          const Text('Quantity',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const SizedBox(
+            width: 20,
           ),
+          Container(
+              width: getMainWidth(context) / 2.5,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border:
+                    Border.all(width: 2, color: Colors.grey.withOpacity(0.5)),
+                color: Colors.grey[100],
+              ),
+              child: Consumer<VariantProvider>(
+                builder: (context, value, child) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            if (amount < value.stock) {
+                              setState(() {
+                                amount++;
+                              });
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.add,
+                            size: 17,
+                            color: Colors.black,
+                          )),
+                      Text(
+                        '$amount/${value.stock}',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              if (amount > 0) {
+                                amount--;
+                              }
+                            });
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.minus,
+                            size: 17,
+                            color: Colors.black,
+                          )),
+                    ],
+                  );
+                },
+              )),
         ],
       ),
     );

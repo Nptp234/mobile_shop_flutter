@@ -35,7 +35,7 @@ class _ChatbotItem extends State<ChatbotItem>{
               borderRadius: BorderRadius.circular(10),
             ),
 
-            child: widget.chatbot.username=='Cohere'?
+            child: widget.chatbot.username=='Gemini'?
               Image.asset('assets/logo_icon/cohere_icon.png', fit: BoxFit.cover,):
               Image.network(user.imgUrl!, fit: BoxFit.cover,)
           ),

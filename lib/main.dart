@@ -7,6 +7,7 @@ import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/chatbot_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
+import 'package:mobile_shop_flutter/views/first/waiting.dart';
 import 'package:provider/provider.dart';
 
 void main() async{
@@ -21,6 +22,7 @@ String baseUrl = 'https://api.airtable.com/v0';
 writeData() async{
   await write();
   await writeUrl('cohereUrl', 'https://api.cohere.ai/generate');
+  await writeUrl('geminiUrl', 'https://api.gemini.com/v1');
   await writeUrl('userUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
   await writeUrl('bannerUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
   await writeUrl('categoryUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');
@@ -49,7 +51,7 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           textTheme: GoogleFonts.robotoTextTheme(),
         ),
-        home: const SignIn()
+        home: const WaitingPage()
       ),
     );
   }

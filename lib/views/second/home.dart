@@ -138,9 +138,9 @@ class _HomePage extends State<HomePage> {
                         suffixIcon: IconButton(
                           onPressed: () {},
                           icon: const Icon(
-                            Icons.sort,
-                            color: Colors.black,
-                            size: 25,
+                            Icons.image_search,
+                            color: Colors.grey,
+                            size: 30,
                           ),
                         ),
                         border: OutlineInputBorder(
