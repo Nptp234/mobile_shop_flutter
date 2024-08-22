@@ -50,73 +50,77 @@ class _HomePage extends State<HomePage> {
         child: Container(
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.only(top: 30),
-            width: getMainWidth(context)-100,
+            width: getMainWidth(context),
             color: Colors.white,
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     //drawner
-                    IconButton(
-                      onPressed: (){
-                        if(scaffoldKey.currentState!.isDrawerOpen){
-                          scaffoldKey.currentState!.closeDrawer();
-                          //close drawer, if drawer is open
-                        }else{
-                          scaffoldKey.currentState!.openDrawer();
-                          //open drawer, if drawer is closed
-                        }
-                      }, 
-                      icon: const Icon(Icons.menu)
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
 
-                    //img and name
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        padding: EdgeInsets.zero,
-                        child: Image.network(
-                          user.imgUrl!,
-                          fit: BoxFit.cover,
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            if(scaffoldKey.currentState!.isDrawerOpen){
+                              scaffoldKey.currentState!.closeDrawer();
+                              //close drawer, if drawer is open
+                            }else{
+                              scaffoldKey.currentState!.openDrawer();
+                              //open drawer, if drawer is closed
+                            }
+                          }, 
+                          icon: const Icon(Icons.menu)
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: getMainWidth(context) / 2,
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Good Morning',
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black38,
-                                fontWeight: FontWeight.w500),
+
+                        //img and name
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            padding: EdgeInsets.zero,
+                            child: Image.network(
+                              user.imgUrl!,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          Text(
-                            user.username!,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                        ),
+                        Container(
+                          // width: 100,
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Good Morning',
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.black38,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                user.username!,
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
 
                     //notification and wishlist
                     IconButton(
                         onPressed: () {},
                         icon: const Icon(Icons.notifications)),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(CupertinoIcons.heart_fill)),
                   ],
                 ),
 
@@ -180,6 +184,10 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
+
+  // Widget _categoryLst() {
+  //   return 
+  // }
 
   Widget _slider() {
     return Container(

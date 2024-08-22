@@ -7,6 +7,10 @@ class UserSqlite{
 
   addUser(String username, String password) async{
     final db = await _sqlite.database;
+    Map<String, dynamic> datas = await getUser();
+    if(datas.isNotEmpty){
+      await deleteUser();
+    }
     var data = db.rawQuery('insert into user(username, password) values (?, ?)', [username, password]);
     log('inserted $data');
   }
