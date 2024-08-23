@@ -91,9 +91,10 @@ class _SupportPage extends State<SupportPage>{
       child: Consumer<ChatbotProvider>(
         builder: (context, value, child) {
 
-          _scrollToEnd();
+          WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToEnd());
 
           return ListView.builder(
+            controller: _scrollController,
             itemCount: value.history.isEmpty?1:value.history.length,
             scrollDirection: Axis.vertical,
             physics: const ScrollPhysics(),

@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 class Cart{
-  String? id, imgUrl, productName, totalPrice, amount;
+  String? id, imgUrl, productID, productName, totalPrice, amount;
   Map<String, String> variantValues = {};
 
   Cart({this.id, this.imgUrl, this.productName, this.totalPrice, this.amount});
@@ -25,6 +25,15 @@ class CartListModel{
   
   void setList(List<Cart> lst){
     _lstCart = lst;
+  }
+  void add(Cart cart){
+    _lstCart.add(cart);
+  }
+  void removeAt(int index){
+    _lstCart.removeAt(index);
+  }
+  void clear(){
+    _lstCart.clear();
   }
 
   List<Cart> getList() => lstCart;

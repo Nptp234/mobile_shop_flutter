@@ -55,7 +55,7 @@ class _ChatbotItem extends State<ChatbotItem>{
             //note
             SizedBox(
               width: getMainWidth(context)-(15+70),
-              child: Text(widget.chatbot.note!, style: GoogleFonts.roboto(color: Colors.black45, fontSize: 20, fontWeight: FontWeight.normal),),
+              child: Text(widget.chatbot.note!, style: GoogleFonts.roboto(color: Colors.black, fontSize: 17, fontWeight: FontWeight.normal),),
             )
           ],
         )

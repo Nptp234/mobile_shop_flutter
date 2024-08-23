@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:mobile_shop_flutter/data/api/cart_api.dart';
 import 'package:mobile_shop_flutter/data/api/chatbot_api.dart';
 import 'package:mobile_shop_flutter/data/api/product_api.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
@@ -9,6 +10,7 @@ import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/models/variant_list.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 
 // ignore: must_be_immutable
 class ProductDetailCustom extends StatefulWidget {
@@ -24,6 +26,7 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
   ProductAPI productAPI = ProductAPI();
   Product product = Product();
   WishlistSqlite wishlistSqlite = WishlistSqlite();
+  CartAPI cartAPI = CartAPI();
   // final _chat = ChatbotApi();
 
   Future<void> _getProduct() async {
@@ -41,6 +44,28 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
       }
       widget.product == product;
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> _addCart(VariantProvider value, BuildContext context) async{
+    try{
+      bool a = await cartAPI.addCart(widget.product, value);
+      if(a){
+        QuickAlert.show(
+          context: context, 
+          type: QuickAlertType.success,
+          text: 'Add to your order success!'
+        );
+      }else{
+        QuickAlert.show(
+          context: context, 
+          type: QuickAlertType.error,
+          text: 'Please try again later!'
+        );
+      }
+    }
+    catch(e){
       rethrow;
     }
   }
@@ -144,40 +169,63 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
     );
   }
 
+  bool _isAdding = false;
+
   Widget _button(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        width: getMainWidth(context) / 2,
-        height: 60,
-        padding:
-            const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: mainColor,
-        ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.shopping_bag,
-              size: 30,
-              color: Colors.white,
+    return Consumer<VariantProvider>(
+      builder: (context, value, child) {
+        return GestureDetector(
+          onTap: () async{
+            setState(() {
+              _isAdding=true;
+            });
+            
+            try{
+              await _addCart(value, context);
+            }catch(e){
+              rethrow;
+            }
+            finally{
+              setState(() {
+                _isAdding=false;
+              });
+            }
+          },
+          child: Container(
+            width: getMainWidth(context) / 2,
+            height: 60,
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: mainColor,
             ),
-            SizedBox(
-              width: 20,
-            ),
-            Text(
-              'Add to cart',
-              style: TextStyle(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.shopping_bag,
+                  size: 30,
                   color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-      ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                !_isAdding?
+                  const Text(
+                    'Add to cart',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold),
+                  ):
+                  const Center(child: CircularProgressIndicator(),),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

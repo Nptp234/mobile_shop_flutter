@@ -4,6 +4,8 @@ import 'package:mobile_shop_flutter/data/api/cart_api.dart';
 import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:mobile_shop_flutter/models/cart_item.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
+import 'package:provider/provider.dart';
 
 class MyOrder extends StatefulWidget{
   const MyOrder({super.key});
@@ -69,19 +71,26 @@ class _MyOrder extends State<MyOrder>{
           return const Center(child: CircularProgressIndicator(),);
         }
         else{
-          return Container(
-            width: getMainWidth(context),
-            height: getMainHeight(context),
-            padding: const EdgeInsets.all(10),
+          return Consumer<CartProviderList>(
+            builder: (context, value, child) {
+              
+              value.setListCartPro(snapshot.data!);
 
-            child: ListView.builder(
-              itemCount: snapshot.data!.length,
-              scrollDirection: Axis.vertical,
-              physics: const ScrollPhysics(),
-              itemBuilder: (context, index) {
-                return CartItem(cart: snapshot.data![index]);
-              },
-            ),
+              return Container(
+                width: getMainWidth(context),
+                height: getMainHeight(context),
+                padding: const EdgeInsets.all(10),
+
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  scrollDirection: Axis.vertical,
+                  physics: const ScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return CartItem(cart: snapshot.data![index], cartProvider: value.cartPros[index],);
+                  },
+                ),
+              );
+            },
           );
         }
       }

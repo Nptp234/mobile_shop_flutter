@@ -22,7 +22,7 @@ class CategoryAPI{
     }
   }
 
-  Future<bool> setCategoryList() async{
+  Future<List<Category>> setCategoryList() async{
     if(categoryList.getCategoryList().isEmpty){
       var data = await _getCategoryFromAPI();
       var records = data['records'];
@@ -39,7 +39,7 @@ class CategoryAPI{
       categoryList.setCategoryList(lst);
     }
 
-    if(categoryList.getCategoryList().isNotEmpty){return true;}
-    else {return false;}
+    if(categoryList.getCategoryList().isNotEmpty){return categoryList.getCategoryList();}
+    else {return [];}
   }
 }

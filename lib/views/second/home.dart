@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/category_api.dart';
 import 'package:mobile_shop_flutter/data/api/product_api.dart';
+import 'package:mobile_shop_flutter/data/models/category.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
@@ -8,6 +10,9 @@ import 'package:mobile_shop_flutter/models/drawner.dart';
 import 'package:mobile_shop_flutter/models/list_category.dart';
 import 'package:mobile_shop_flutter/models/product_item.dart';
 import 'package:mobile_shop_flutter/models/slider.dart';
+import 'package:mobile_shop_flutter/views/second/search.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +26,8 @@ class _HomePage extends State<HomePage> {
   final user = User();
   ProductListModel productListModel = ProductListModel();
   ProductAPI productAPI = ProductAPI();
+  final categoryList = CategoryListModel();
+  CategoryAPI categoryAPI = CategoryAPI();
   
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -125,36 +132,38 @@ class _HomePage extends State<HomePage> {
                 ),
 
                 //search bar
-                Container(
-                  width: getMainWidth(context),
-                  margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  padding: const EdgeInsets.all(5),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        hintText: 'Search',
-                        hintStyle: const TextStyle(
-                            fontWeight: FontWeight.normal, color: Colors.grey),
-                        prefixIcon: const Icon(
-                          Icons.search,
-                          color: Colors.black54,
-                          size: 25,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.image_search,
-                            color: Colors.grey,
-                            size: 30,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide:
-                                const BorderSide(color: Colors.grey, width: 1)),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(
-                                color: Colors.grey, width: 1))),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+                  },
+                  child: Container(
+                    width: getMainWidth(context),
+                    margin: const EdgeInsets.only(left: 10, right: 10, top: 30),
+                    padding: const EdgeInsets.all(15),
+
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 1.5, color: Colors.grey.withOpacity(0.5)),
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          
+                          children: [
+                            Icon(Icons.search, color: Colors.black54, size: 25,),
+                            SizedBox(width: 10,),
+                            Text('Search...', style: TextStyle(fontWeight: FontWeight.normal, color: Colors.grey, fontSize: 17),)
+                          ],
+                        )
+
+                      ],
+                    )
                   ),
                 )
               ],
@@ -175,7 +184,7 @@ class _HomePage extends State<HomePage> {
             _slider(),
 
             //category list
-            const CategoryList(),
+            _categoryLst(context),
 
             //all product
             _itemList(context, 'All Product'),
@@ -185,14 +194,106 @@ class _HomePage extends State<HomePage> {
     );
   }
 
-  // Widget _categoryLst() {
-  //   return 
-  // }
+  Widget _categoryLst(BuildContext context) {
+    return Container(
+      width: getMainWidth(context),
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 20),
+      
+      decoration: const BoxDecoration(
+        color: Colors.white
+      ),
+
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: [
+          //title
+          const Text('Shop with category', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+          const SizedBox(height: 20,),
+
+          //lst
+          SizedBox(
+            width: double.infinity,
+            height: 150,
+            child: _cateLst(),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _cateLst(){
+    return FutureBuilder<List<Category>>(
+        future: categoryAPI.setCategoryList(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState==ConnectionState.waiting){
+            return const Center(child: CircularProgressIndicator());
+          }
+          else if(!snapshot.hasData){
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.error,
+                title: 'Data is null!',
+              );
+            });
+
+            return const SizedBox();
+          }
+          else{
+            return Center(
+              child: GridView.builder(
+                itemCount: snapshot.data!.length,
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 1,
+                  mainAxisSpacing: 0.0,
+                  crossAxisSpacing: 0.0,
+                  childAspectRatio: 1.5,
+                ), 
+                itemBuilder: (context, index){
+                  return SizedBox(
+                    width: 150,
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: [
+                        Container(
+                          width: 60, 
+                          height: 60, 
+                          padding: const EdgeInsets.all(10),
+                          margin: const EdgeInsets.only(bottom: 10),
+                          
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            // color: secondaryColor.withOpacity(0.5),
+                            color: Colors.transparent
+                          ),
+
+                          child: Image.network(snapshot.data![index].iconUrl!, fit: BoxFit.contain,),
+                        ),
+                        Text(snapshot.data![index].name!, style: const TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.normal),)
+                      ],
+                    ),
+                  );
+                }
+              ),
+            );
+          }
+        },
+      );
+  }
 
   Widget _slider() {
     return Container(
       width: getMainWidth(context),
-      margin: const EdgeInsets.all(15),
+      margin: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 25),
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

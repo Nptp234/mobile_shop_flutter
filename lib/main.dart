@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => VariantProvider()),
         ChangeNotifierProvider(create: (context) => CartProvider()),
         ChangeNotifierProvider(create: (context) => ChatbotProvider()),
+        ChangeNotifierProvider(create: (context) => CartProviderList()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

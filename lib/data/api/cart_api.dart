@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
+import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
 
 class CartAPI{
   CartListModel cartListModel = CartListModel();
@@ -48,6 +50,51 @@ class CartAPI{
         lst.add(cart);
       }
       return lst;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<bool> addCart(Product product, VariantProvider value) async{
+    try{
+      String? key = await read();
+      String? url = await readUrl('cartUrl');
+
+      int extra = value.variantPrices.values.fold(0, (sum, item) => sum + item);
+      String variantNames = value.variants.keys.join(', ');
+      String variantValues = value.variants.values.map((v) => v.toString()).join(', ');
+
+      final body = {
+            "records":[
+                {
+                    "fields":{
+                        "CustomerID": user.id,
+                        "CustomerUsername": user.username,
+                        "CustomerEmail": user.email,
+                        "ProductID": product.id,
+                        "ProductName": product.name,
+                        "VariantName": value.variants.keys.toList(),
+                        "VariantValue": value.variants.values.toList(),
+                        "Amount": 3,
+                        "ProductPrice": int.parse(product.price!),
+                        "VariantExtra": extra
+                    }
+                }
+            ]
+        };
+
+      final res = await http.post(
+        Uri.parse(url!),
+        headers: {
+          'Authorization': 'Bearer $key',
+          'Content-Type':'application/json'
+        },
+        body: jsonEncode(body)
+      );
+      if(res.statusCode==200){
+        return true;
+      }else{return false;}
     }
     catch(e){
       rethrow;

@@ -32,13 +32,13 @@ class _CategoryList extends State<CategoryList>{
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       margin: const EdgeInsets.only(top: 30),
 
-      child: FutureBuilder<bool>(
+      child: FutureBuilder<List<Category>>(
         future: categoryAPI.setCategoryList(),
         builder: (context, snapshot) {
           if(snapshot.connectionState==ConnectionState.waiting){
             return const Center(child: CircularProgressIndicator());
           }
-          else if(!snapshot.data!){
+          else if(!snapshot.hasData!){
             WidgetsBinding.instance.addPostFrameCallback((_) {
               QuickAlert.show(
                 context: context,

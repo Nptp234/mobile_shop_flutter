@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
 class CartItem extends StatefulWidget{
-  Cart cart;
-  CartItem({super.key, required this.cart});
+  final Cart cart;
+  CartProvider cartProvider;
+  CartItem({super.key, required this.cart, required this.cartProvider});
 
   @override
   State<CartItem> createState() => _CartItem();
@@ -16,20 +17,9 @@ class CartItem extends StatefulWidget{
 
 class _CartItem extends State<CartItem>{
 
-  _setProvider(CartProvider cartProvider){
-    cartProvider.setAmount(int.parse(widget.cart.amount!));
-    cartProvider.setPrice(int.parse(widget.cart.totalPrice!));
-    cartProvider.setNotChange((double.parse(widget.cart.totalPrice!)/double.parse(widget.cart.amount!)).toInt());
-  }
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
-        final value = Provider.of<CartProvider>(context, listen: false);
-        _setProvider(value);
-      }
-    );
   }
 
   @override
@@ -69,138 +59,143 @@ class _CartItem extends State<CartItem>{
   }
 
   Widget _detail(BuildContext context){
-    return Consumer<CartProvider>(
-      builder: (context, value, child) {
+    return ChangeNotifierProvider.value(
+      value: widget.cartProvider,
+        child: Consumer<CartProvider>(
+          builder: (context, value, child) {
+            return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //name
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 160,
+                    child: Text(widget.cart.productName!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),),
+                  ),
+                  IconButton(
+                    onPressed: (){
 
-          children: [
-            //name
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: 160,
-                  child: Text(widget.cart.productName!, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),),
-                ),
-                IconButton(
-                  onPressed: (){
-
-                  }, 
-                  icon: const Icon(Icons.delete, color: Colors.red,)
-                )
-              ],
-            ),
-            const SizedBox(height: 15,),
-
-            //variant
-            SizedBox(
-              height: 50,
-              child: ListView.builder(
-                itemCount: widget.cart.variantValues.length,
-                scrollDirection: Axis.horizontal,
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index){
-                  String variantName = widget.cart.variantValues.keys.elementAt(index);
-                  String values = widget.cart.variantValues[variantName]!;
-
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-
-                    children: [
-                      Text('$variantName:', style: const TextStyle(fontSize: 17, color: Colors.grey, fontWeight: FontWeight.bold),),
-                      const SizedBox(width: 7,),
-                      variantName=='Color'?
-                      Container(
-                        width: 25,
-                        height: 25,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(180),
-                          border: Border.all(color: Colors.grey, width: 2),
-                          color: Color(int.parse(values))
-                        ),
-                      ):
-                      Text(values, style: const TextStyle(fontSize: 17, color: Colors.grey, fontWeight: FontWeight.bold),),
-                      const SizedBox(width: 7,),
-                      Container(
-                        width: 2,
-                        height: 30,
-                        color: Colors.grey,
-                      ),
-                      const SizedBox(width: 10,),
-                    ],
-                  );
-                }
+                    }, 
+                    icon: const Icon(Icons.delete, color: Colors.red,)
+                  )
+                ],
               ),
-            ),
-            const SizedBox(height: 20,),
+              const SizedBox(height: 15,),
 
-            //price and amount
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-                
-              children: [
-                //amount
-                _amount(context),
-                const SizedBox(height: 20,),
-                //price
-                Text('${value.price!=0?priceFormated('${value.price}'):priceFormated('${widget.cart.totalPrice}')} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
-              ],
-            ),
-          ],
-        );
-      },
+              //variant
+              SizedBox(
+                height: 50,
+                child: ListView.builder(
+                  itemCount: widget.cart.variantValues.length,
+                  scrollDirection: Axis.horizontal,
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index){
+                    String variantName = widget.cart.variantValues.keys.elementAt(index);
+                    String values = widget.cart.variantValues[variantName]!;
+
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+
+                      children: [
+                        Text('$variantName:', style: const TextStyle(fontSize: 17, color: Colors.grey, fontWeight: FontWeight.bold),),
+                        const SizedBox(width: 7,),
+                        variantName=='Color'?
+                        Container(
+                          width: 25,
+                          height: 25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(180),
+                            border: Border.all(color: Colors.grey, width: 2),
+                            color: Color(int.parse(values))
+                          ),
+                        ):
+                        Text(values, style: const TextStyle(fontSize: 17, color: Colors.grey, fontWeight: FontWeight.bold),),
+                        const SizedBox(width: 7,),
+                        Container(
+                          width: 2,
+                          height: 30,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 10,),
+                      ],
+                    );
+                  }
+                ),
+              ),
+              const SizedBox(height: 20,),
+
+              //price and amount
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                  
+                children: [
+                  //amount
+                  _amount(context),
+                  const SizedBox(height: 20,),
+                  //price
+                  Text('${value.price!=0?priceFormated('${widget.cartProvider.price}'):priceFormated('${widget.cart.totalPrice}')} VND', style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
+                ],
+              ),
+            ],
+          );
+        },
+      )
     );
   }
 
   Widget _amount(BuildContext context){
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+    return ChangeNotifierProvider.value(
+      value: widget.cartProvider,
+        child: Consumer<CartProvider>(
+          builder: (context, value, child) {
+            return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
 
-        children: [
-          Container(
-            width: 140,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(width: 2, color: Colors.grey.withOpacity(0.5)),
-              color: Colors.grey[100],
-            ),
+            children: [
+              Container(
+                width: 140,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 2, color: Colors.grey.withOpacity(0.5)),
+                  color: Colors.grey[100],
+                ),
 
-            child: Consumer<CartProvider>(
-              builder: (context, value, child) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
 
-                  children: [
-                    IconButton(
-                      onPressed: (){
-                        value.addAmount();
-                      }, 
-                      icon: const Icon(Icons.add, size: 17, color: Colors.black,)
-                    ),
-                    Text('${value.amount!=0?value.amount:widget.cart.amount}', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
-                    IconButton(
-                      onPressed: (){
-                        if(value.amount>1){
-                          value.decrease();
-                        }
-                      }, 
-                      icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
-                    ),
-                  ],
-                );
-              },
-            )
-          )
-        ]
+                      children: [
+                        IconButton(
+                          onPressed: (){
+                            value.addAmount();
+                          }, 
+                          icon: const Icon(Icons.add, size: 17, color: Colors.black,)
+                        ),
+                        Text('${value.amount!=0?value.amount:widget.cart.amount}', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
+                        IconButton(
+                          onPressed: (){
+                            if(value.amount>1){
+                              value.decrease();
+                            }
+                          }, 
+                          icon: const Icon(CupertinoIcons.minus, size: 17, color: Colors.black,)
+                        ),
+                      ],
+                    )
+              )
+            ]
+          );
+        },
+      )
     );
   }
 
