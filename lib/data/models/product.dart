@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 class Product{
-  String? id, name, des, price, imgUrl, sold, starRating;
+  String? id, name, des, price, imgUrl, sold, starRating, categoryName;
   bool isWishlist = false;
 
   //combination
@@ -9,7 +9,7 @@ class Product{
   Map<String, List<String>>? variantPrices = {};
   Map<String, List<String>>? variantStocks = {};
 
-  Product({this.id, this.name, this.price, this.des, this.imgUrl});
+  Product({this.id, this.name, this.price, this.des, this.imgUrl, this.categoryName});
 
   Product.fromJson(Map<dynamic, dynamic> e){
     id = '${e['ID']}';
@@ -19,16 +19,7 @@ class Product{
     imgUrl = e['Product Image'][0]['url'];
     sold = '${e['Sold']}';
     starRating = '${e['Star Rating']}';
-  }
-
-  Map<dynamic, dynamic> toJson(){
-    Map<dynamic, dynamic> data = <dynamic, dynamic>{};
-    data['ID'] = int.parse(id!);
-    data['Product Name'] = name;
-    data['Description'] = des;
-    data['Price'] = double.parse(price!);
-    data['Product Image'][0]['url'] = imgUrl;
-    return data;
+    categoryName = '${e['CategoryName']}';
   }
 
   void addVariant(String variant, List<dynamic> values, List<dynamic> extraPrice, List<dynamic> stocks) {
@@ -47,9 +38,23 @@ class Product{
       variantStocks![variant] = variantStocks![variant]!.toSet().union(stringStocks.toSet()).toList();
     }
   }
+
+  int compareTo(Product other) => name!.compareTo(other.name!);
 }
 
 class ProductListModel{
+  //singleton
+  ProductListModel._privateConstructor();
+
+  // Static instance
+  static final ProductListModel _instance = ProductListModel._privateConstructor();
+
+  // Factory constructor to return the static instance
+  factory ProductListModel() {
+    return _instance;
+  }
+  //
+
   List<Product> _lstProduct = [];
   UnmodifiableListView<Product> get lstProduct => UnmodifiableListView(_lstProduct);
   

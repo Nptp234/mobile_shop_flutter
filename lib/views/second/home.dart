@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   
   final user = User();
-  ProductListModel productListModel = ProductListModel();
+  final productListModel = ProductListModel();
   ProductAPI productAPI = ProductAPI();
   final categoryList = CategoryListModel();
   CategoryAPI categoryAPI = CategoryAPI();
@@ -33,6 +33,7 @@ class _HomePage extends State<HomePage> {
 
   Future<List<Product>> _getProductAll() async {
     List<Product> lst = await productAPI.getAll();
+    productListModel.setList(lst);
     return lst;
   }
 
@@ -134,7 +135,7 @@ class _HomePage extends State<HomePage> {
                 //search bar
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage()));
+                    Search().search(context);
                   },
                   child: Container(
                     width: getMainWidth(context),
