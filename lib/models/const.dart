@@ -19,7 +19,9 @@ double getMainWidth(BuildContext context){
 }
 
 String phoneFormated(String phone){
-  return '${phone.substring(0, 4)}-${phone.substring(4, 7)}-${phone.substring(7, 10)}';
+  if(phone.length==10){
+    return '${phone.substring(0, 4)}-${phone.substring(4, 7)}-${phone.substring(7, 10)}';
+  }else{return '';}
 }
 
 String priceFormated(String price){
@@ -37,9 +39,7 @@ class InputFieldCustom extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      
       margin: const EdgeInsets.only(left: 20, right: 20),
-
       padding: const EdgeInsets.all(5),
 
       child: TextFormField(

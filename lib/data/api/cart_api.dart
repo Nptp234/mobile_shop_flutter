@@ -20,7 +20,7 @@ class CartAPI{
       if(res.statusCode==200){
         final data = jsonDecode(res.body);
         List<dynamic> filteredRecordsList = data['records'].where((record) {
-          return record['fields']['CustomerID'] == user.id;
+          return record['fields']['CustomerID'][0] == user.id;
         }).toList();
 
         // Convert the filtered list back into a map structure
@@ -62,16 +62,12 @@ class CartAPI{
       String? url = await readUrl('cartUrl');
 
       int extra = value.variantPrices.values.fold(0, (sum, item) => sum + item);
-      String variantNames = value.variants.keys.join(', ');
-      String variantValues = value.variants.values.map((v) => v.toString()).join(', ');
 
       final body = {
             "records":[
                 {
                     "fields":{
-                        "CustomerID": user.id,
-                        "CustomerUsername": user.username,
-                        "CustomerEmail": user.email,
+                        "Customer": user.id,
                         "ProductID": product.id,
                         "ProductName": product.name,
                         "VariantName": value.variants.keys.toList(),
@@ -99,5 +95,74 @@ class CartAPI{
     catch(e){
       rethrow;
     }
+  }
+
+  Future<bool> updateAmount(int amount, String id) async{
+    try{
+      String? key = await read();
+      String? url = await readUrl('cartUrl');
+
+      final body = {
+        "records":[
+            {
+              "fields":{
+                "ID": id,
+                "Amount": amount,
+              }
+            }
+          ]
+      };
+
+      final res = await http.patch(
+        Uri.parse(url!),
+        headers: {
+          'Authorization': 'Bearer $key',
+          'Content-Type':'application/json'
+        },
+        body: jsonEncode(body)
+      );
+
+      if(res.statusCode==200){
+        return true;
+      }else{return false;}
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<bool> checkSameCart(Product product, VariantProvider value) async{
+    try{
+      List<Cart> existingCarts = await getList();
+
+      Cart existingCart=Cart();
+      existingCart = existingCarts.firstWhere(
+        (cart) => cart.productID == product.id &&_areVariantsEqual(cart.variantValues, value.variants),
+      );
+
+      if(existingCart.id==null){
+        return false;
+      }else{
+        return true;
+      }
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  // Helper method to compare variants
+  bool _areVariantsEqual(Map<String, String> cartVariants, Map<String, String> newVariants) {
+    if (cartVariants.length != newVariants.length) {
+      return false;
+    }
+
+    for (String key in cartVariants.keys) {
+      if (!newVariants.containsKey(key) || cartVariants[key] != newVariants[key]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

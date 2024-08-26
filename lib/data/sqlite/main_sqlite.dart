@@ -63,4 +63,25 @@ class SQLiteService {
     }
   }
   //
+
+  // Function to handle database upgrades
+  void _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    try {
+      log('Upgrading database from version $oldVersion to $newVersion');
+      
+      if (oldVersion < 2) {
+        await db.execute(
+          'ALTER TABLE user ADD COLUMN email TEXT;',
+        );
+        log('Table altered: user, added column email');
+      }
+      // Example: if (oldVersion < 3) { // Upgrade to version 3 }
+
+    } catch (e) {
+      log('Error upgrading database: $e');
+      rethrow;
+    }
+  }
+  //
+
 }

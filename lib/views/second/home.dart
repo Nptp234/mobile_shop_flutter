@@ -53,8 +53,9 @@ class _HomePage extends State<HomePage> {
   }
 
   PreferredSize _header(BuildContext context) {
+    double _headerHeight = getMainHeight(context) / 5;
     return PreferredSize(
-        preferredSize: Size.fromHeight(getMainHeight(context) / 5),
+        preferredSize: Size.fromHeight(_headerHeight),
         child: Container(
             padding: const EdgeInsets.all(5),
             margin: const EdgeInsets.only(top: 30),
@@ -139,8 +140,8 @@ class _HomePage extends State<HomePage> {
                   },
                   child: Container(
                     width: getMainWidth(context),
-                    margin: const EdgeInsets.only(left: 10, right: 10, top: 30),
-                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                    padding: const EdgeInsets.all(10),
 
                     decoration: BoxDecoration(
                       border: Border.all(width: 1.5, color: Colors.grey.withOpacity(0.5)),

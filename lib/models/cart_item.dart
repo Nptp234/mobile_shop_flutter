@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/cart_api.dart';
 import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
@@ -175,15 +176,15 @@ class _CartItem extends State<CartItem>{
 
                       children: [
                         IconButton(
-                          onPressed: (){
+                          onPressed: () {
                             value.addAmount();
                           }, 
                           icon: const Icon(Icons.add, size: 17, color: Colors.black,)
                         ),
                         Text('${value.amount!=0?value.amount:widget.cart.amount}', style: const TextStyle(color: Colors.black, fontSize: 17, fontWeight: FontWeight.bold),),
                         IconButton(
-                          onPressed: (){
-                            if(value.amount>1){
+                          onPressed: () {
+                            if(value.amount>1) {
                               value.decrease();
                             }
                           }, 

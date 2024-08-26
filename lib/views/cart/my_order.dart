@@ -5,6 +5,7 @@ import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:mobile_shop_flutter/models/cart_item.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
+import 'package:mobile_shop_flutter/views/cart/checkout.dart';
 import 'package:provider/provider.dart';
 
 class MyOrder extends StatefulWidget{
@@ -29,6 +30,7 @@ class _MyOrder extends State<MyOrder>{
     return Scaffold(
       appBar: _header(context),
       body: _body(context),
+      bottomNavigationBar: _footer(context),
     );
   }
 
@@ -94,6 +96,25 @@ class _MyOrder extends State<MyOrder>{
           );
         }
       }
+    );
+  }
+
+  Widget _footer(BuildContext context){
+    return Container(
+      height: 100,
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const CartCheckout()));
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: mainColor,
+            borderRadius: BorderRadius.circular(20)
+          ),
+          child: const Center(child: Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),),
+        ),
+      )
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/cart_api.dart';
 import 'package:mobile_shop_flutter/data/models/cart.dart';
 
 class CartProvider with ChangeNotifier{
@@ -11,6 +12,8 @@ class CartProvider with ChangeNotifier{
   int _notChangePrice = 0;
   int get price => _price;
   int get notChangePrice => _notChangePrice;
+
+  CartAPI cartAPI = CartAPI();
 
   CartProvider();
 

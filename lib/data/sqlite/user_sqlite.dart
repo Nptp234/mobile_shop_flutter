@@ -30,6 +30,7 @@ class UserSqlite{
     final db = await _sqlite.database;
     List<Map<String, dynamic>> data = await db.rawQuery('select * from user');
     log('$data');
-    return data[0];
+    if(data.isNotEmpty){return data[0];}
+    else{return {};}
   }
 }

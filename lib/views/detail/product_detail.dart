@@ -50,7 +50,11 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
 
   Future<void> _addCart(VariantProvider value, BuildContext context) async{
     try{
-      bool a = await cartAPI.addCart(widget.product, value);
+      bool s = await cartAPI.checkSameCart(product, value);
+      bool a = false;
+      if(s){
+        a = await cartAPI.addCart(widget.product, value);
+      }
       if(a){
         QuickAlert.show(
           context: context, 
