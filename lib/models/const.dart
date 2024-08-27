@@ -59,3 +59,32 @@ class InputFieldCustom extends StatelessWidget{
   }
 
 }
+
+PreferredSize headerSub(BuildContext context, String title){
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(100), 
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(top: 20),
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 5)
+          ],
+          color: Colors.white
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
+          children: [
+            IconButton(
+              onPressed: () => Navigator.pop(context), 
+              icon: const Icon(Icons.arrow_back,)
+            ),
+            const SizedBox(width: 20,),
+            Text(title, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
+          ],
+        ),
+      )
+    );
+  }

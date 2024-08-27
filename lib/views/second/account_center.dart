@@ -31,7 +31,7 @@ class _AccountCenter extends State<AccountCenter>{
       preferredSize: Size.fromHeight(getMainHeight(context)/3), 
       child: Container(
         width: getMainHeight(context),
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.only(left: 10, right: 10),
         padding: const EdgeInsets.all(10),
 
         decoration: const BoxDecoration(
