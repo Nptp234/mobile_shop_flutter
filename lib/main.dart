@@ -31,6 +31,7 @@ writeData() async{
   await writeUrl('stockUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['STOCK_TABLE']}');
   await writeUrl('cartUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CART_TABLE']}');
   await writeUrl('shipmentUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['SHIPMENT_TABLE']}');
+  await writeUrl('paymentUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['PAYMENT_TABLE']}');
 }
 
 class MainApp extends StatelessWidget {

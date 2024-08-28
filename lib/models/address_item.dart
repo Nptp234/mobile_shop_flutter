@@ -2,28 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/models/shipment.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
-
-class AddressItem extends StatefulWidget{
-  AddressItem({super.key, required this.shipment});
+class AddressItem extends StatelessWidget{
+  AddressItem({super.key, required this.shipment, required this.isSelected, required this.onSelect});
   Shipment shipment;
-
-  @override
-  State<AddressItem> createState() => _AddressItem();
-}
-
-class _AddressItem extends State<AddressItem>{
+  final VoidCallback onSelect;
+  final bool isSelected;
 
   final user = User();
-  bool isCheck = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isCheck=!isCheck;
-        });
-      },
+      onTap: onSelect,
       child: Container(
         width: double.infinity,
         height: 200,
@@ -45,11 +35,9 @@ class _AddressItem extends State<AddressItem>{
                 scale: 1.3,
                 child: Checkbox(
                   activeColor: mainColor,
-                  side: BorderSide(color: Colors.grey, width: 2),
-                  value: isCheck, 
-                  onChanged: (value) => setState(() {
-                    isCheck = value!;
-                  })
+                  side: const BorderSide(color: Colors.grey, width: 2),
+                  value: isSelected, 
+                  onChanged: (value) => onSelect()
                 ),
               ),
             ),
@@ -71,17 +59,17 @@ class _AddressItem extends State<AddressItem>{
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(widget.shipment.nameAddress!, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
+            Text(shipment.nameAddress!, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 17),),
             IconButton(
               onPressed: (){}, 
-              icon: Icon(Icons.edit)
+              icon: const Icon(Icons.edit)
             )
           ],
         ),
 
         Text(phoneFormated(user.phoneNumber!), style: const TextStyle(color: Colors.grey, fontSize: 17, fontWeight: FontWeight.normal),),
         const SizedBox(height: 7,),
-        Text(widget.shipment.address!, style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.normal),),
+        Text(shipment.address!, style: const TextStyle(color: Colors.grey, fontSize: 15, fontWeight: FontWeight.normal),),
       ],
     );
   }
