@@ -7,6 +7,8 @@ Future<void> write() async{
   await storage.write(key: 'apiKey', value: dotenv.env['API_KEY']);
   await storage.write(key: 'cohereKey', value: dotenv.env['COHERE_KEY']);
   await storage.write(key: 'geminiKey', value: dotenv.env['GEMINI_KEY']);
+  await storage.write(key: 'stripeKey', value: dotenv.env['STRIPE_KEY']);
+  await storage.write(key: 'stripePubKey', value: dotenv.env['STRIPE_PUB_KEY']);
 }
 
 Future<String?> read () async{
@@ -19,6 +21,14 @@ Future<String?> readCohere () async{
 
 Future<String?> readGemini () async{
   return await storage.read(key: 'geminiKey');
+}
+
+Future<String?> readStripe () async{
+  return await storage.read(key: 'stripeKey');
+}
+
+Future<String?> readStripePub () async{
+  return await storage.read(key: 'stripePubKey');
 }
 
 Future<void> writeUrl(String key, String url) async{

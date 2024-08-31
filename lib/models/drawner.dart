@@ -29,12 +29,14 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Container(
-        color: Colors.white,
-        height: double.infinity,
-        padding: const EdgeInsets.only(top: 50),
+      child: SafeArea(
+        child: Container(
+          color: Colors.white,
+          height: double.infinity,
+          padding: const EdgeInsets.only(top: 10),
 
-        child: _buildDrawerMenu(),
+          child: _buildDrawerMenu(),
+        ),
       ),
     );
   }
@@ -57,7 +59,7 @@ class _DrawnerCustomState extends State<DrawnerCustom> {
               _TitleMenuItem(
                 title: 'My Orders',
                 icon: Icons.shopping_bag,
-                gotoWidget: const MyOrder(),
+                gotoWidget: MyOrder(),
               ),
               _TitleMenuItem(
                 title: 'Wishlist',

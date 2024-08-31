@@ -85,15 +85,17 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            physics: const ScrollPhysics(),
-            child: _body(context),
-          ),
-          _header(context)
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: const ScrollPhysics(),
+              child: _body(context),
+            ),
+            _header(context)
+          ],
+        ),
       ),
       bottomNavigationBar: _footer(context),
     );

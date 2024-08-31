@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/payment_api.dart';
 import 'package:mobile_shop_flutter/data/api/shipment_api.dart';
+import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:mobile_shop_flutter/data/models/payment.dart';
 import 'package:mobile_shop_flutter/data/models/shipment.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/address_item.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/models/payment_item.dart';
+import 'package:mobile_shop_flutter/views/cart/my_order.dart';
+import 'package:mobile_shop_flutter/views/cart/payment.dart';
 
 class CartCheckout extends StatefulWidget{
   const CartCheckout({super.key});
@@ -20,6 +23,8 @@ class _CartCheckout extends State<CartCheckout>{
   final user = User();
   ShipmentApi shipmentApi = ShipmentApi();
   PaymentApi paymentApi = PaymentApi();
+
+  final myOrder = MyOrder();
   
   int? selectedPayment;
   void onSelectPayment(int index){
@@ -55,6 +60,14 @@ class _CartCheckout extends State<CartCheckout>{
     }
   }
 
+  String sumPriceCart(List<Cart> lst){
+    double sum = 0;
+    for(var cart in lst){
+      sum+=int.parse(cart.totalPrice!);
+    }
+    return '$sum';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +87,7 @@ class _CartCheckout extends State<CartCheckout>{
       padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
       child: GestureDetector(
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => const CartCheckout()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentPage()));
         },
         child: Container(
           decoration: BoxDecoration(
@@ -98,7 +111,7 @@ class _CartCheckout extends State<CartCheckout>{
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
-          _total('3', '10000000'),
+          _total('${myOrder.lstCarts.length}', sumPriceCart(myOrder.lstCart)),
           _address(),
           _paymentMethod()
         ],
@@ -188,7 +201,7 @@ class _CartCheckout extends State<CartCheckout>{
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
-          const Text('Your shipment address', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),),
+          const Text('Your payment method', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),),
           const SizedBox(height: 20,),
 
           FutureBuilder<List<Payment>>(

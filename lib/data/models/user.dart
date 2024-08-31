@@ -10,10 +10,10 @@ class User{
     return _instance;
   }
 
-  String? id, username, email, password, imgUrl, phoneNumber;
+  String? id, username, email, password, imgUrl, phoneNumber, imgName;
 
   clear(){
-    id=null;username=null;email=null;password=null;imgUrl=null;
+    id=null;username=null;email=null;password=null;imgUrl=null;imgName=null;
   }
 
   fromJson(Map<dynamic, dynamic> e){
@@ -22,6 +22,7 @@ class User{
     email = e['Email'];
     password = e['Password'];
     imgUrl = e['ProfileImg'][0]['url'];
+    imgName = e['ProfileImg'][0]['filename'];
     phoneNumber = e['Phone Number'];
   }
 

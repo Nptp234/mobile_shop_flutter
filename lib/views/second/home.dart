@@ -56,12 +56,14 @@ class _HomePage extends State<HomePage> {
     double _headerHeight = getMainHeight(context) / 5;
     return PreferredSize(
         preferredSize: Size.fromHeight(_headerHeight),
-        child: Container(
+        child: SafeArea(
+          child: Container(
             padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.only(top: 30),
             width: getMainWidth(context),
             color: Colors.white,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +171,9 @@ class _HomePage extends State<HomePage> {
                   ),
                 )
               ],
-            )));
+            ))
+        )
+    );
   }
 
   Widget _body() {

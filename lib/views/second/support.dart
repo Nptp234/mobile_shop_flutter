@@ -63,19 +63,23 @@ class _SupportPage extends State<SupportPage>{
   PreferredSize _header(BuildContext context){
     return PreferredSize(
       preferredSize: Size.fromHeight(50), 
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 10)
-          ]
-        ),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          title: Text('Gemini Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
-        ),
+      child: SafeArea(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 10)
+            ]
+          ),
+          child: Center(
+            child: AppBar(
+              backgroundColor: Colors.white,
+              title: Text('Gemini Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+            ),
+          )
+        )
       )
     );
   }

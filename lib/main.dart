@@ -6,6 +6,7 @@ import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/chatbot_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
+import 'package:mobile_shop_flutter/views/cart/payment.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
 import 'package:mobile_shop_flutter/views/first/waiting.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await writeData();
+  // Stripe.publishableKey = '${dotenv.env['STRIPE_PUB_KEY']}';
   runApp(const MainApp());
 }
 
@@ -23,6 +25,8 @@ writeData() async{
   await write();
   await writeUrl('cohereUrl', 'https://api.cohere.ai/generate');
   await writeUrl('geminiUrl', 'https://api.gemini.com/v1');
+  await writeUrl('stripeUrl', 'https://api.stripe.com/v1');
+
   await writeUrl('userUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CUSTOMERS_TABLE']}');
   await writeUrl('bannerUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['BANNERS_TABLE']}');
   await writeUrl('categoryUrl', '$baseUrl/${dotenv.env['BASE_ID']}/${dotenv.env['CATEGORY_TABLE']}');

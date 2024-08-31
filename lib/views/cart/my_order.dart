@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:animation_search_bar/animation_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/cart_api.dart';
@@ -9,7 +11,20 @@ import 'package:mobile_shop_flutter/views/cart/checkout.dart';
 import 'package:provider/provider.dart';
 
 class MyOrder extends StatefulWidget{
-  const MyOrder({super.key});
+
+  //Singleton connection
+  MyOrder._privateConstructor();
+
+  // Static instance
+  static final MyOrder _instance = MyOrder._privateConstructor();
+
+  // Factory constructor to return the static instance
+  factory MyOrder() {
+    return _instance;
+  }
+
+  List<Cart> lstCart = [];
+  UnmodifiableListView<Cart> get lstCarts => UnmodifiableListView(lstCart);
 
   @override 
   State<MyOrder> createState() => _MyOrder();
@@ -19,10 +34,30 @@ class _MyOrder extends State<MyOrder>{
 
   TextEditingController searchController = TextEditingController();
   CartAPI cartAPI = CartAPI();
+  List<Cart> lst = [];
+  UnmodifiableListView<Cart> get lstt => UnmodifiableListView(lst);
+  bool isLoadList = true;
 
   Future<List<Cart>> _getList() async{
-    List<Cart> lst = await cartAPI.getList();
+    lst = await cartAPI.getList();
     return lst;
+  }
+
+  toCheckout() async{
+    widget.lstCart = lstt;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const CartCheckout()));
+  }
+
+  Future<bool> changeStateButton() async{
+    List<Cart> lst = await _getList();
+    if(lst.isNotEmpty){
+      isLoadList = false;
+      return false;
+    }
+    else {
+      isLoadList = true;
+      return true;
+    }
   }
 
   @override
@@ -65,6 +100,7 @@ class _MyOrder extends State<MyOrder>{
     );
   }
 
+
   Widget _body(BuildContext context){
     return FutureBuilder<List<Cart>>(
       future: _getList(), 
@@ -77,6 +113,7 @@ class _MyOrder extends State<MyOrder>{
             builder: (context, value, child) {
               
               value.setListCartPro(snapshot.data!);
+              isLoadList = false;
 
               return Container(
                 width: getMainWidth(context),
@@ -104,15 +141,26 @@ class _MyOrder extends State<MyOrder>{
       height: 100,
       padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
       child: GestureDetector(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CartCheckout()));
+        onTap: () async{
+          if(!isLoadList){
+            await toCheckout();
+          }
         },
         child: Container(
           decoration: BoxDecoration(
             color: mainColor,
             borderRadius: BorderRadius.circular(20)
           ),
-          child: const Center(child: Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),),
+          child: FutureBuilder<bool>(
+            future: changeStateButton(), 
+            builder: (context, snapshot){
+              if(snapshot.connectionState==ConnectionState.waiting || snapshot.data!){
+                return const Center(child: CircularProgressIndicator(color: Colors.white,),);
+              }else{
+                return const Center(child: Text('Place Order', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),),);
+              }
+            }
+          )
         ),
       )
     );

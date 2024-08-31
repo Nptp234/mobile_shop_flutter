@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
+import 'package:mobile_shop_flutter/views/detail/account_detail.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({super.key});
@@ -23,38 +24,28 @@ class _SettingsList extends State<SettingsList> {
         body: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 400),
-            color: Colors.transparent,
+            color: Colors.white,
             child: ListView(
               children: [
-                const _SingleSection(
+                _SingleSection(
                   title: "General",
                   children: [
-                    // _CustomListTile(
-                    //     title: "Dark Mode",
-                    //     icon: Icons.dark_mode_outlined,
-                    //     trailing: Switch(
-                    //         value: _isDark,
-                    //         onChanged: (value) {
-                    //           setState(() {
-                    //             _isDark = value;
-                    //           });
-                    //         })),
                     _CustomListTile(
+                        title: "Profile",
+                        icon: Icons.person,
+                        action: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AccountDetail()));
+                        },),
+                    const _CustomListTile(
                         title: "Notifications",
                         icon: Icons.notifications_none_rounded),
-                    _CustomListTile(
+                    const _CustomListTile(
                         title: "Security Status",
                         icon: CupertinoIcons.lock_shield),
                   ],
                 ),
-                const _SingleSection(
-                  title: "Organization",
-                  children: [
-                    _CustomListTile(
-                        title: "Profile", icon: Icons.person_outline_rounded),
-                  ],
-                ),
                 _SingleSection(
+                  title: "Organization",
                   children: [
                     const _CustomListTile(
                         title: "Help & Feedback",

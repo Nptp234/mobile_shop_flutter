@@ -69,4 +69,13 @@ class UserAPI{
       rethrow;
     }
   }
+
+  Future<void> updateImg() async{
+    try{
+
+    }
+    catch(e){
+      rethrow;
+    }
+  }
 }

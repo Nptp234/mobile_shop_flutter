@@ -39,7 +39,7 @@ class InputFieldCustom extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(left: 20, right: 20),
+      margin: const EdgeInsets.only(left: 10, right: 10),
       padding: const EdgeInsets.all(5),
 
       child: TextFormField(
@@ -63,28 +63,33 @@ class InputFieldCustom extends StatelessWidget{
 PreferredSize headerSub(BuildContext context, String title){
     return PreferredSize(
       preferredSize: const Size.fromHeight(100), 
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.only(top: 20),
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 5)
-          ],
-          color: Colors.white
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
+      child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.grey, offset: Offset(0, 1), blurRadius: 5)
+            ],
+            color: Colors.white
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
 
-          children: [
-            IconButton(
-              onPressed: () => Navigator.pop(context), 
-              icon: const Icon(Icons.arrow_back,)
-            ),
-            const SizedBox(width: 20,),
-            Text(title, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
-          ],
-        ),
+            children: [
+              IconButton(
+                onPressed: () => Navigator.pop(context), 
+                icon: const Icon(Icons.arrow_back,)
+              ),
+              const SizedBox(width: 20,),
+              Text(title, style: const TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),)
+            ],
+          ),
+        )
       )
     );
+  }
+
+  String getFileNameFromUrl(String url) {
+    return Uri.parse(url).pathSegments.last;
   }
