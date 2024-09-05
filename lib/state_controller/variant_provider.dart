@@ -11,8 +11,8 @@ class VariantProvider with ChangeNotifier{
   int _stock = 0;
   int get stock => _stock;
 
-  Map<String, int> _variantPrices = {};
-  Map<String, String> _variants = {};
+  final Map<String, int> _variantPrices = {};
+  final Map<String, String> _variants = {};
   UnmodifiableMapView<String, String> get variants => UnmodifiableMapView(_variants);
   UnmodifiableMapView<String, int> get variantPrices => UnmodifiableMapView(_variantPrices);
 

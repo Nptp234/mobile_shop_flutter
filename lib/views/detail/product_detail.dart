@@ -110,7 +110,7 @@ class _ProductDetailCustom extends State<ProductDetailCustom> {
               top: 10,
               left: 10,
               child: Container(
-                margin: EdgeInsets.only(top: 30, left: 10),
+                margin: const EdgeInsets.only(top: 30, left: 10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(180),
                     color: Colors.black38.withOpacity(0.3)),

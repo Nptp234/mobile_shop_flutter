@@ -62,7 +62,7 @@ class _SupportPage extends State<SupportPage>{
 
   PreferredSize _header(BuildContext context){
     return PreferredSize(
-      preferredSize: Size.fromHeight(50), 
+      preferredSize: const Size.fromHeight(50), 
       child: SafeArea(
         child: Container(
           width: double.infinity,
@@ -76,7 +76,7 @@ class _SupportPage extends State<SupportPage>{
           child: Center(
             child: AppBar(
               backgroundColor: Colors.white,
-              title: Text('Gemini Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
+              title: const Text('Gemini Chatbot', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),),
             ),
           )
         )
@@ -146,7 +146,7 @@ class _SupportPage extends State<SupportPage>{
       builder: (context, value, child) {
         return Container(
           width: getMainWidth(context),
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           color: Colors.white,
           child: TextFormField(
             controller: messController,

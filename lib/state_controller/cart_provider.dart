@@ -45,7 +45,7 @@ class CartProvider with ChangeNotifier{
 
 }
 class CartProviderList with ChangeNotifier {
-  List<CartProvider> _cartPros = [];
+  final List<CartProvider> _cartPros = [];
   UnmodifiableListView<CartProvider> get cartPros => UnmodifiableListView(_cartPros);
 
   void _setProvider(Cart cart, CartProvider cartProvider) {

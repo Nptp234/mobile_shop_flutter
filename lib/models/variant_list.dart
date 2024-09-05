@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 
 class VariantList extends StatefulWidget{
-  VariantList({super.key, required this.variantName, required this.variantValue, required this.variantPrice, required this.variantStock});
+  const VariantList({super.key, required this.variantName, required this.variantValue, required this.variantPrice, required this.variantStock});
 
   final String variantName;
   final List<String> variantValue;

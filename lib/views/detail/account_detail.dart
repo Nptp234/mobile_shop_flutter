@@ -1,6 +1,11 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_shop_flutter/data/api/user_api.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
+import 'package:quickalert/quickalert.dart';
 
 class AccountDetail extends StatefulWidget{
   const AccountDetail({super.key});
@@ -12,6 +17,7 @@ class AccountDetail extends StatefulWidget{
 class _AccountDetail extends State<AccountDetail>{
 
   final user = User();
+  final userApi = UserAPI();
   
   TextEditingController userName = TextEditingController();
   TextEditingController passWord = TextEditingController();
@@ -39,6 +45,8 @@ class _AccountDetail extends State<AccountDetail>{
     );
   }
 
+  bool imgLoad = false;
+
   Widget _body(BuildContext context){
     return Container(
       width: getMainWidth(context),
@@ -52,7 +60,24 @@ class _AccountDetail extends State<AccountDetail>{
         children: [
           //img
           _img(context),
-          _button(context, (){}),
+          _button(context, imgLoad, () async{
+            File? img = await pickImg();
+            if(img==null){
+              QuickAlert.show(context: context, type: QuickAlertType.error, text: 'You have canceled the upload!');
+            }else{
+              setState(() {
+                imgLoad = true;
+              });
+              bool isUp = await userApi.updateImg(img);
+              if(isUp){setState(() {imgLoad=false;});}
+              else{
+                setState(() {
+                  imgLoad = false;
+                });
+                QuickAlert.show(context: context, type: QuickAlertType.error, text: 'Please try again later!');
+              }
+            }
+          }),
           const SizedBox(height: 30,),
           //info
           _info(context),
@@ -72,6 +97,8 @@ class _AccountDetail extends State<AccountDetail>{
     );
   }
 
+  bool infoLoad = false;
+
   Widget _info(BuildContext context){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -83,12 +110,12 @@ class _AccountDetail extends State<AccountDetail>{
         InputFieldCustom(controller: passWord, hintText: 'Your password', isObsucre: false),
         InputFieldCustom(controller: emailControl, hintText: 'Your email', isObsucre: false),
         const SizedBox(height: 20,),
-        _button(context, (){}),
+        _button(context, infoLoad, (){}),
       ],
     );
   }
 
-  Widget _button(BuildContext context, GestureTapCallback action){
+  Widget _button(BuildContext context, bool isLoading, GestureTapCallback action){
     return GestureDetector(
       onTap: action,
       child: Container(
@@ -99,9 +126,25 @@ class _AccountDetail extends State<AccountDetail>{
               color: mainColor,
               borderRadius: BorderRadius.circular(10)
             ),
-            child: const Center(child: Text('Update', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),),),
+            child: Center(
+              child: !isLoading?
+                const Text('Update', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),):
+                const CircularProgressIndicator(),
+            ),
           ),
     );
+  }
+
+  Future<File?> pickImg() async{
+    try{
+      FilePickerResult? result = await FilePicker.platform.pickFiles(allowedExtensions: ['png', 'jpg', 'jpeg'], type: FileType.custom);
+      if(result!=null){
+        return File(result.files.single.path!);
+      }else{return null;}
+    }
+    catch(e){
+      rethrow;
+    }
   }
 
 }

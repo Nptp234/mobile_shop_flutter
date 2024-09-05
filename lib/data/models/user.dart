@@ -1,3 +1,4 @@
+
 class User{
   //Singleton connection
   User._privateConstructor();

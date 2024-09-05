@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/data/sqlite/user_sqlite.dart';
-import 'package:mobile_shop_flutter/models/bottom_menu.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signUp.dart';
 import 'package:mobile_shop_flutter/views/second/home.dart';

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:mobile_shop_flutter/data/models/product.dart';
 import 'package:mobile_shop_flutter/data/sqlite/wishlist_sqlite.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/detail/product_detail.dart';
-import 'package:mobile_shop_flutter/views/second/wishlist.dart';
 // import 'package:mobile_shop_flutter/models/const.dart';
 
 // ignore: must_be_immutable

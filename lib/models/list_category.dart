@@ -38,7 +38,7 @@ class _CategoryList extends State<CategoryList>{
           if(snapshot.connectionState==ConnectionState.waiting){
             return const Center(child: CircularProgressIndicator());
           }
-          else if(!snapshot.hasData!){
+          else if(!snapshot.hasData){
             WidgetsBinding.instance.addPostFrameCallback((_) {
               QuickAlert.show(
                 context: context,

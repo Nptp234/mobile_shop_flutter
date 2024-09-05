@@ -43,7 +43,7 @@ class ChatbotApi {
  Future<String> requestGemini(String mess) async{
     try{ 
       final model = await api.headerChatGemini();
-      final prompt = '$mess';
+      final prompt = mess;
       final res = await model.generateContent([Content.text(prompt)]);
       return res.text!;
     }

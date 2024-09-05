@@ -53,9 +53,9 @@ class _HomePage extends State<HomePage> {
   }
 
   PreferredSize _header(BuildContext context) {
-    double _headerHeight = getMainHeight(context) / 5;
+    double headerHeight = getMainHeight(context) / 5;
     return PreferredSize(
-        preferredSize: Size.fromHeight(_headerHeight),
+        preferredSize: Size.fromHeight(headerHeight),
         child: SafeArea(
           child: Container(
             padding: const EdgeInsets.all(5),

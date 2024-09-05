@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_shop_flutter/data/api/storage.dart';
-import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/chatbot_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
-import 'package:mobile_shop_flutter/views/cart/payment.dart';
-import 'package:mobile_shop_flutter/views/first/signIn.dart';
 import 'package:mobile_shop_flutter/views/first/waiting.dart';
 import 'package:provider/provider.dart';
 

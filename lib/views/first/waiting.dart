@@ -62,7 +62,7 @@ class _WaitingPage extends State<WaitingPage>{
                 Container(
                   width: 100,
                   height: 100,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(color: Colors.white, offset: Offset(-10, 10), blurRadius: 20)
                     ]

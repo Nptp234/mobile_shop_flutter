@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 // import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/data/models/payment.dart';
-import 'package:quickalert/quickalert.dart';
 
 class PaymentApi {
 

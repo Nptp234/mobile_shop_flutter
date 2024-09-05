@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_shop_flutter/data/api/cart_api.dart';
 import 'package:mobile_shop_flutter/data/models/cart.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
 
 class CartItem extends StatefulWidget{
   final Cart cart;
