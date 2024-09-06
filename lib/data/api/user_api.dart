@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/data/api/telegram_bot.dart';
+import 'package:mobile_shop_flutter/data/firebase/auth_firebase.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
 import 'package:path/path.dart';
@@ -25,6 +26,7 @@ class UserAPI{
   final user = User();
 
   TelegramService telegramService = TelegramService();
+  AuthFirebase authFirebase = AuthFirebase();
 
   _setCurrentuserFromJson(Map<dynamic, dynamic> data){
     user.fromJson(data);
@@ -63,7 +65,10 @@ class UserAPI{
         var field = record['fields'];
         if(field['Username']==username && field['Password']==password){
           _setCurrentuserFromJson(field);
-          return '200';
+          // auth firebase
+          bool isAuth = await authFirebase.checkAuth(user.email!, user.password!);
+          if(isAuth){return '200';}
+          else{return 'fail auth';}
         }
       }
       return 'Invalid username or password';
@@ -81,7 +86,7 @@ class UserAPI{
       String? key = await read();
       String? url = await readUrl('userUrl');
 
-      String imgUrl = await telegramService.uploadAndGet(img);
+
 
       return true;
     }

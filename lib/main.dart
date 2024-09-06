@@ -1,7 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_shop_flutter/data/api/storage.dart';
+import 'package:mobile_shop_flutter/firebase_options.dart';
 import 'package:mobile_shop_flutter/state_controller/cart_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/chatbot_provider.dart';
 import 'package:mobile_shop_flutter/state_controller/variant_provider.dart';
@@ -12,9 +14,14 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/.env");
   await writeData();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   // Stripe.publishableKey = '${dotenv.env['STRIPE_PUB_KEY']}';
   runApp(const MainApp());
 }
+
+
 
 String baseUrl = 'https://api.airtable.com/v0';
 

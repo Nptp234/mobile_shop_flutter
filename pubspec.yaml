@@ -30,6 +30,9 @@ dependencies:
   google_generative_ai: ^0.4.5
   search_page: ^2.3.0
   file_picker: ^8.1.2
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.14.0
+  firebase_auth: ^4.16.0
   
 
 dev_dependencies:

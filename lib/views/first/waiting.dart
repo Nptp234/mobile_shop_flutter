@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_shop_flutter/data/api/user_api.dart';
+import 'package:mobile_shop_flutter/data/firebase/auth_firebase.dart';
+import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/data/sqlite/user_sqlite.dart';
 import 'package:mobile_shop_flutter/models/const.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
@@ -16,6 +18,8 @@ class _WaitingPage extends State<WaitingPage>{
 
   UserSqlite userSqlite = UserSqlite();
   final userApi = UserAPI();
+  final user = User();
+  AuthFirebase authFirebase = AuthFirebase();
 
   Future<bool> _checkData(BuildContext context) async{
     try{
@@ -27,7 +31,6 @@ class _WaitingPage extends State<WaitingPage>{
       else{
         final String sign = await userApi.signIn(lst['username'], lst['password']);
         if(sign=='200'){return true;}
-        // ignore: use_build_context_synchronously
         else{return false;}
       }
     }
