@@ -23,9 +23,9 @@ class AuthFirebase {
 
   Future<bool> checkAuth(String email, String password) async{
     try{
-      bool isAuth = await createUserWithEmailPassword(email, password);
+      bool isAuth = await signInWithEmailPassword(email, password);
       if(!isAuth){
-        isAuth = await signInWithEmailPassword(email, password);
+        isAuth = await createUserWithEmailPassword(email, password);
         return isAuth;
       }else{return true;}
     }

@@ -18,6 +18,8 @@ class _AccountDetail extends State<AccountDetail>{
 
   final user = User();
   final userApi = UserAPI();
+
+  String imgUrl = '';
   
   TextEditingController userName = TextEditingController();
   TextEditingController passWord = TextEditingController();
@@ -28,6 +30,7 @@ class _AccountDetail extends State<AccountDetail>{
     userName.text = user.username!;
     passWord.text = user.password!;
     emailControl.text = user.email!;
+    imgUrl=user.imgUrl!;
     super.initState();
   }
 
@@ -69,7 +72,13 @@ class _AccountDetail extends State<AccountDetail>{
                 imgLoad = true;
               });
               bool isUp = await userApi.updateImg(img);
-              if(isUp){setState(() {imgLoad=false;});}
+              if(isUp){
+                String url = await userApi.getImageUrl();
+                setState(() {
+                  imgUrl = url;
+                  imgLoad=false;
+                }
+              );}
               else{
                 setState(() {
                   imgLoad = false;
@@ -79,6 +88,7 @@ class _AccountDetail extends State<AccountDetail>{
             }
           }),
           const SizedBox(height: 30,),
+
           //info
           _info(context),
         ],
@@ -87,12 +97,16 @@ class _AccountDetail extends State<AccountDetail>{
   }
 
   Widget _img(BuildContext context){
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        height: getMainHeight(context)/3,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-        child: Image.network(user.imgUrl!, fit: BoxFit.cover,),
+    return Container(
+      width: getMainWidth(context),
+      margin: const EdgeInsets.only(bottom: 20),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          height: getMainHeight(context)/3,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+          child: Image.network(imgUrl, fit: BoxFit.cover,),
+        ),
       ),
     );
   }
@@ -129,7 +143,7 @@ class _AccountDetail extends State<AccountDetail>{
             child: Center(
               child: !isLoading?
                 const Text('Update', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),):
-                const CircularProgressIndicator(),
+                const CircularProgressIndicator(color: Colors.white,),
             ),
           ),
     );

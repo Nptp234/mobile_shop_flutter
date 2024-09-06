@@ -27,6 +27,10 @@ class User{
     phoneNumber = e['Phone Number'];
   }
 
+  setImage(Map<dynamic, dynamic> e){
+    imgUrl = e['ProfileImg'][0]['url'];
+  }
+
   Map<dynamic, dynamic> toJson(){
     final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
     data['ID'] = id;

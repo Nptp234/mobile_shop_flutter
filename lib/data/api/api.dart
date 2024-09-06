@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_shop_flutter/data/api/storage.dart';
@@ -44,6 +46,27 @@ class Api {
     }
     catch(e){
       rethrow;
+    }
+  }
+
+  Future<String> getRecordId(String key, String url, String id) async{
+    try{
+      final res = await http.get(
+        Uri.parse('$url?filterByFormula={ID}="$id"'),
+        headers: {
+          'Authorization': 'Bearer $key',
+          'Content-Type': 'application/json'
+        },
+      );
+      if(res.statusCode==200){
+        final data = jsonDecode(res.body);
+        if(data['records'].isNotEmpty){
+          return data['records'][0]['id'];
+        }else{return '';}
+      }else {return '';}
+    }
+    catch(e){
+      return '$e';
     }
   }
 }

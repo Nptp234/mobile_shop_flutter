@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_shop_flutter/data/api/api.dart';
 import 'package:mobile_shop_flutter/data/api/storage.dart';
 import 'package:mobile_shop_flutter/data/api/telegram_bot.dart';
 import 'package:mobile_shop_flutter/data/firebase/auth_firebase.dart';
+import 'package:mobile_shop_flutter/data/firebase/storage_firebase.dart';
 import 'package:mobile_shop_flutter/data/models/user.dart';
 import 'package:mobile_shop_flutter/views/first/signIn.dart';
 import 'package:path/path.dart';
@@ -27,6 +29,7 @@ class UserAPI{
 
   TelegramService telegramService = TelegramService();
   AuthFirebase authFirebase = AuthFirebase();
+  StorageFirebase storageFirebase = StorageFirebase();
 
   _setCurrentuserFromJson(Map<dynamic, dynamic> data){
     user.fromJson(data);
@@ -50,6 +53,28 @@ class UserAPI{
       
       if(res.statusCode==200){ return jsonDecode(res.body); }
       else { return {}; }
+    }
+    catch(e){
+      rethrow;
+    }
+  }
+
+  Future<String> getImageUrl() async{
+    try{
+      String? key = await read();
+      String? url = await readUrl('userUrl');
+      final res = await http.get(
+        Uri.parse('$url?filterByFormula={ID}="${user.id}"'),
+        headers: {
+          'Authorization': 'Bearer $key',
+          'Content-Type': 'application/json'
+        },
+      );
+      if(res.statusCode==200){
+        Map<dynamic, dynamic> data = jsonDecode(res.body);
+        String imgUrl = data['records'][0]['fields']['ProfileImg'][0]['url'];
+        return imgUrl;
+      }else{return '';}
     }
     catch(e){
       rethrow;
@@ -83,75 +108,55 @@ class UserAPI{
   // delete file in public url
   Future<bool> updateImg(File img) async{
     try{
-      String? key = await read();
-      String? url = await readUrl('userUrl');
 
+      //upload firebase
+      String? imgUrl = await storageFirebase.uploadImage(img);
+      //update airtable
+      bool isUpA = await _updateAirtableImg(imgUrl!);
+      //delete firebase
+      bool isDe = await storageFirebase.deleteImg(imgUrl);
 
-
-      return true;
+      return isUpA&&isDe;
     }
     catch(e){
       rethrow;
     }
   }
 
-  // Future<bool> updateImg(File img) async{
-  //   try{
-  //     String? key = await read();
-  //     String? url = await readUrl('userUrl');
+  Future<bool> _updateAirtableImg(String imgUrl) async{
+    try{
+      String? key = await read();
+      String? url = await readUrl('userUrl');
 
-  //     var request = http.MultipartRequest('POST', Uri.parse(url!));
-  //     request.headers['Authorization'] = 'Bearer $key';
+      String recordId = await Api().getRecordId(key!, url!, user.id!);
+      if(recordId==''){return false;}
 
-  //     //add file
-  //     request.files.add(
-  //       await http.MultipartFile.fromPath(
-  //         'ProfileImg', 
-  //         img.path, 
-  //         filename: basename(img.path),
-  //       )
-  //     );
-  //     var res = await request.send();
-  //     if(res.statusCode==200){
-  //       //get url
-  //       final responseBody = await res.stream.bytesToString();
-  //       final responseData = jsonDecode(responseBody);
-  //       user.imgUrl = responseData['records'][0]['fields']['ProfileImg'][0]['url'];
-  //       user.imgName = responseData['records'][0]['fields']['ProfileImg'][0]['filename'];
+      final body = {
+        'records':[
+          {
+            "id": recordId,
+            "fields": {
+              "ProfileImg": [
+                {"url": imgUrl}
+              ]
+            }
+          }
+        ]
+      };
 
-  //       final attachmentID = responseData['records'][0]['fields']['ProfileImg'][0]['id'];
-  //       final body = {
-  //         'records':[
-  //           {
-  //             "id": "recuFLzC9m5cB0loF", // Replace with the actual record ID
-  //             "fields": {
-  //               "ID": user.id,
-  //               "ProfileImg": [
-  //                 {"id": attachmentID}
-  //               ]
-  //             }
-  //           }
-  //         ]
-  //       };
+      final res = await http.patch(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $key',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body)
+      );
+      return res.statusCode==200;
+    }
+    catch(e){
+      rethrow;
+    }
+  }
 
-  //       //final update
-  //       final updateRes = await http.patch(
-  //         Uri.parse(url),
-  //         headers: {
-  //           'Authorization': 'Bearer $key',
-  //           'Content-Type': 'application/json'
-  //         },
-  //         body: jsonEncode(body),
-  //       );
-  //       if (updateRes.statusCode != 200) {
-  //         return true;
-  //       }else {return false;}
-
-  //     }else {return false;}
-
-  //   }
-  //   catch(e){
-  //     rethrow;
-  //   }
-  // }
 }
